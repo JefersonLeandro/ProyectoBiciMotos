@@ -13,7 +13,7 @@ class controladorProducto extends Controller
         $productos = Producto::get();
 
         // return $productos->toArray();
-        return view('welcome', ['productos' => $productos]);
+        return view('index', ['productos' => $productos]);
     
     }
 }
