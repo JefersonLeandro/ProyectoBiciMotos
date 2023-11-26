@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\controladorProducto;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// })->name('index');
+
+
+Route::get('/' , [controladorProducto::class,'index'])->name("index");
