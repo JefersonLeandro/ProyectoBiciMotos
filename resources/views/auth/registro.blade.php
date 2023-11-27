@@ -20,7 +20,7 @@
                     @enderror
 
                 <label for="">apellido</label>
-                <input type="text" class=" border-4  border-solid " name="apellidoUsuario">
+                <input type="text" class=" border-4  border-solid " name="apellidoUsuario" value="{{old('apellidoUsuario')}}">
 
                     @error('apellidoUsuario')
                     <small style="color: red;  ">{{$message}}</small>
@@ -28,7 +28,7 @@
                     @enderror
                 
                 <label for="">Numero de identificacion</label>
-                <input type="number" class=" border-4  border-solid " name="identificacionUsuario">
+                <input type="number" class=" border-4  border-solid " name="identificacionUsuario" value="{{old('identificacionUsuario')}}">
 
                     @error('identificacionUsuario')
                         <small style="color: red;  ">{{$message}}</small>
@@ -36,7 +36,7 @@
                     @enderror
                 
                 <label for="">email</label>
-                <input type="email" name="emailUsuario" class=" border-4  border-solid ">
+                <input type="email" name="emailUsuario" class=" border-4  border-solid " value="{{old('emailUsuario')}}">
 
                     @error('emailUsuario')
                     <small style="color: red;  ">{{$message}}</small>
@@ -44,15 +44,16 @@
                     @enderror
 
                 <label for="">Contraseña</label>
-                <input type="password" class=" border-4  border-solid " name="passwordUsuario">
+                <input type="password" class=" border-4  border-solid " name="passwordUsuario" value="{{old('passwordUsuario')}}">
                     @error('passwordUsuario')
                     <small style="color: red;  ">{{$message}}</small>
             
                     @enderror
 
                 <label for="">Confirme la contraseña</label>
-                <input type="password" class=" border-4  border-solid " name="passwordUsuario_confirmation">
+                <input type="password" class=" border-4  border-solid " name="passwordUsuario_confirmation" value="{{old('passwordUsuario_confirmation')}}">
 
+                <input type="hidden" name="idRol" value="1">
 
                 <button type="submit" class=" w-11 h-12 min-w-[8rem] rounded-lg border-2 border-gray-600 bg-gray-500 text-emerald-50 shadow-lg hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-600">
                     Registrar

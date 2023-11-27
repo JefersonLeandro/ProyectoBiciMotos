@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\auth\controladorRegistrarUsuario;
 use App\Http\Controllers\controladorProducto;
-use App\Http\Controllers\controladorUsuario;
 use Illuminate\Support\Facades\Route;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +37,4 @@ Route::view("/registro","auth.registro")->name("registro");
 
 
 //Enviar y cargar un metodo
-Route::post("/registrar",[controladorUsuario::class,'store'])->name("auth.registrar");
+Route::post("/registrar",[controladorRegistrarUsuario::class,'store'])->name("auth.registrar"); 
