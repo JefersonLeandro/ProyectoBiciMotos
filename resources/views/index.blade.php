@@ -20,7 +20,7 @@ aaaa
                         <div class="w-5/6 pl-72">
 
                             <p class="text-lg">BICIMOTOS</p>
-                            <p>vista welcome</p>
+                            <p>vista home </p>
                         </div>
                     
                             
