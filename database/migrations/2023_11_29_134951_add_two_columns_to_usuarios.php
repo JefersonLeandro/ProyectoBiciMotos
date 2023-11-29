@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
+     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::table('_usuarios', function (Blueprint $table) {
-            //
+        Schema::table('usuarios', function (Blueprint $table) {
+            $table->timestamps();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('_usuarios', function (Blueprint $table) {
-            //
+        Schema::table('usuarios', function (Blueprint $table) {
+            $table->dropTimestamps();
         });
     }
 };

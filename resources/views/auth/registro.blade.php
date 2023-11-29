@@ -5,7 +5,7 @@
 
     <main class="bg-gray-400-500 w-full h-screen">
         <div class="flex items-center w-full justify-center pt-6">
-            <form action="{{route("auth.registrar")}}" method="POST" class="flex flex-col w-96">
+            <form action="{{route("auth.Registrar")}}" method="POST" class="flex flex-col w-96">
                 <h3 for="">Registro</h3>
 
                 @csrf
@@ -39,7 +39,7 @@
                 <input type="email" name="emailUsuario" class=" border-4  border-solid " value="{{old('emailUsuario')}}">
 
                     @error('emailUsuario')
-                    <small style="color: red;  ">{{$message}}</small>
+                        <small style="color: red;  ">{{$message}}</small>
             
                     @enderror
 

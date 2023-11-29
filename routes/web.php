@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\auth\controladorRegistrarUsuario;
+use App\Http\Controllers\auth\controladorAutenticarUsuario;
 use App\Http\Controllers\controladorProducto;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +34,13 @@ Route::get('/' , [controladorProducto::class,'index'])->name("index");
 
 //Navegar sobre los formularios
 Route::view("/registro","auth.registro")->name("registro");
+Route::view("/login","auth.login")->name("login");
 
 
 
 //Enviar y cargar un metodo
-Route::post("/registrar",[controladorRegistrarUsuario::class,'store'])->name("auth.registrar"); 
+Route::post("/registrar",[controladorRegistrarUsuario::class,'store'])->name("auth.Registrar");
+Route::post("/autenticarUserio",[controladorAutenticarUsuario::class,'store'])->name("auth.Usuario");
+ 
+
+

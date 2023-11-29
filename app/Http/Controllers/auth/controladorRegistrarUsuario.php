@@ -31,15 +31,12 @@ class controladorRegistrarUsuario extends Controller
             "apellidoUsuario" => $request->input("apellidoUsuario"),
             "identificacionUsuario" => $request->input("identificacionUsuario"),
             "passwordUsuario" => bcrypt($request->passwordUsuario),
+            "emailUsuario" =>$request->emailUsuario,
             "idRol" => $request->input("idRol"),
             
         ]);
 
-        
-
-
-
-
+        return to_route("login")->with("estado","Cuenta creada correctamente");
 
     }
 }

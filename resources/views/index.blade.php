@@ -5,10 +5,6 @@
 
 >
 
-aaaa
-
-
-
 <main class=" h-screen flex  justify-center items-start">
         
     <section class="container  h- w-11/12  " style="height: 90vh" >
@@ -22,25 +18,16 @@ aaaa
                             <p class="text-lg">BICIMOTOS</p>
                             <p>vista welcome</p>
                         </div>
-                    
-                            
+
                         @guest
                             
                             <div class=" mr-5 flex gap-3 items-center">
                                 <a href="{{route("registro")}}" class="underline">Registro</a>
-                                <a href="" class="underline">InciarSession</a>
+                                <a href="{{route("login")}}" class="underline">InciarSession</a>
                             </div>
 
                         @endguest
-                        
-                     
-                       
-                            
-                      
                     </div>
-                    
-              
-                
             </div>
         </div>
 
@@ -50,9 +37,6 @@ aaaa
             <h2 class="sr-only">Products</h2>
         
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-              
-              
-               
                     
                     @foreach ($productos as $producto)
                         
@@ -74,8 +58,6 @@ aaaa
                             
                         </a>
                     @endforeach
-             
-                   
              
 
                         {{-- <a href="#" class="group">
