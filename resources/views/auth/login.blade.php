@@ -52,7 +52,7 @@ meta-description="Esta es la descripcion de login"
             
 
             <div class="flex justify-center h-14 items-center " >
-                <div class="  w-5/6 h-12 flex  justify-between  gap-5  flex items-center">
+                <div class="  w-5/6 h-12 flex justify-between  gap-5  items-center">
                     
                     <a href="{{route("index")}}" class="text-lg hover:underline w-20 text-center">
                         Regresar

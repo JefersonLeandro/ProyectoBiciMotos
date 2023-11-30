@@ -33,9 +33,9 @@ class controladorAutenticarUsuario extends Controller
         }
     
         // Credenciales correctas
-        $request->session()->regenerate();
+        $request->session()->regenerate();//regenerar el token o el identificador de la session osea cambia el antiguo por uno nuevo 
     
-        return redirect()->intended()->with('estado', '¡Bienvenido, has iniciado sesión!');
+        return redirect()->intended()->with('estado', '¡Bienvenido, has iniciado sesión!');// el metodo intended redirecciona a la raiz o osea al home 
     }
     
 

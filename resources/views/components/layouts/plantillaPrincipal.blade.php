@@ -12,8 +12,8 @@
     @if (session("estado"))
    
         <div class="bg-white border-t border-b border-black px-4 py-3" role="alert">
-            <p class="font-bold text-black-500">{{session('estado')}}</p>
-            <p class="text-sm text-black-400">accion realizada correctamente</p>
+            <strong class="font-clear cleartext-black-500">{{session('estado')}}</strong>
+            <p class="text-sm text-black-400 ">accion realizada correctamente</p>
         </div>
     
     @endif
