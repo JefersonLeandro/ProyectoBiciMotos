@@ -19,9 +19,9 @@ meta-description="Esta es la descripcion de login"
                  
                     <div class="flex flex-col h-20">
                         <label for="" class="font-semibold ">Email</label>
-                        <input type="email" class="rounded h-12 border border-gray-400 p-2" name="email" placeholder="Su email... " value="{{old("email")}}">
-                        <small class="text-red-500">el campo debe conterner al menos 4 carateres</small>
-                        @error('email')
+                        <input type="email" class="rounded h-12 border border-gray-400 p-2" name="emailUsuario" placeholder="Su email... " value="{{old("emailUsuario")}}">
+                      
+                        @error('emailUsuario')
                             <small class="text-red-500">{{$message}}</small>
        
                          @enderror
@@ -29,9 +29,9 @@ meta-description="Esta es la descripcion de login"
                     </div>
                     <div class="flex flex-col h-20">
                         <label for="" class="font-semibold ">Contraseña</label>
-                        <input type="password" class="rounded h-12 border border-gray-400 p-2"  name="password" placeholder="Su contrasena.. " >
-                        <small class="text-red-500">el campo debe conterner al menos 4 carateres</small> 
-                        @error('password')
+                        <input type="password" class="rounded h-12 border border-gray-400 p-2"  name="passwordUsuario" placeholder="Su contrasena.. " >
+                      
+                        @error('passwordUsuario')
 
                             <small class="text-red-500">{{$message}}</small>
        

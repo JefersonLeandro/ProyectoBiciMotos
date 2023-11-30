@@ -40,7 +40,7 @@ Route::view("/login","auth.login")->name("login");
 
 //Enviar y cargar un metodo
 Route::post("/registrar",[controladorRegistrarUsuario::class,'store'])->name("auth.Registrar");
-Route::post("/autenticarUserio",[controladorAutenticarUsuario::class,'store'])->name("auth.Usuario");
+Route::post("/autenticarUsuario",[controladorAutenticarUsuario::class,'store'])->name("auth.Usuario");
  
 
 
