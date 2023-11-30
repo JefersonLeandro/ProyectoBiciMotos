@@ -5,23 +5,34 @@
 
 >
 
-<main class=" h-screen flex  justify-center items-start">
+<main class=" w-full h-screen flex  justify-center items-start ">
         
-    <section class="container  h- w-11/12  " style="height: 90vh" >
+    <section class="  w-full " style="height: 90vh" >
         <div class=" text-center w-full h-20 flex items-center  justify-center  ">
             
-            <div class="w-full flex ">
-                    <div class=" w-full flex ">
+            <div class="w-full ">
                         
-                        <div class="w-5/6 pl-72">
+                    <div class="w-full  flex  h-20  gap-3">
+                        <div class=" w-6/12 h-full flex items-center justify-center">
+                            <h2 class="text-xl">BICIMOTOS</h2>
 
-                            <p class="text-lg">BICIMOTOS</p>
-                            <p>vista home </p>
                         </div>
+                        
+
+                        <div class=" ancho30 h-full flex justify-center items-center  ">
+                            <ul class="flex gap-4 ">
+                                <li  class=" underline cursor-pointer">Carrito(0)</li>
+                                <li class=" underline">item</li>
+                                <li class=" underline">item</li>
+                                <li class=" underline">item</li>
+                                <li class=" underline">item</li>
+                            </ul>
+                        </div>
+
 
                         @guest
                             
-                            <div class=" mr-5 flex gap-3 items-center">
+                            <div class=" ancho20 flex gap-3 items-center ">
                                 <a href="{{route("registro")}}" class="underline">Registro</a>
                                 <a href="{{route("login")}}" class="underline">InciarSession</a>
                             </div>
@@ -41,6 +52,7 @@
                     @foreach ($productos as $producto)
                         
                         <a href="#" class="group">
+
                             <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                                 <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
                             </div>
