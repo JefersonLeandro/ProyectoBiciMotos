@@ -19,9 +19,9 @@ meta-description="Esta es la descripcion de login"
                  
                     <div class="flex flex-col h-20">
                         <label for="" class="font-semibold ">Email</label>
-                        <input type="email" class="rounded h-12 border border-gray-400 p-2" name="emailUsuario" placeholder="Su email... " value="{{old("emailUsuario")}}">
+                        <input type="email" class="rounded h-12 border border-gray-400 p-2" name="email" placeholder="Su email... " value="{{old("email")}}">
                       
-                        @error('emailUsuario')
+                        @error('email')
                             <small class="text-red-500">{{$message}}</small>
        
                          @enderror
@@ -29,9 +29,9 @@ meta-description="Esta es la descripcion de login"
                     </div>
                     <div class="flex flex-col h-20">
                         <label for="" class="font-semibold ">Contraseña</label>
-                        <input type="password" class="rounded h-12 border border-gray-400 p-2"  name="passwordUsuario" placeholder="Su contrasena.. " >
+                        <input type="password" class="rounded h-12 border border-gray-400 p-2"  name="password" placeholder="Su contrasena.. " >
                       
-                        @error('passwordUsuario')
+                        @error('password')
 
                             <small class="text-red-500">{{$message}}</small>
        
@@ -78,5 +78,13 @@ meta-description="Esta es la descripcion de login"
 
 
 </main>
+@guest
+    <strong>usuario sin atenticacion</strong>
+@endguest
+
+@auth
+    <strong>asuario atenticado</strong>
+    {{Auth::user()}}
+@endauth
 
 </x-layouts.plantillaPrincipal>

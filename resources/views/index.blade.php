@@ -38,6 +38,27 @@
                             </div>
 
                         @endguest
+
+
+                        @auth
+                            <div class=" ancho20 flex gap-3 items-center ">
+                                <a href="{{route("registro")}}" class="underline">Cerrar session</a>
+                                
+                            </div>
+                            
+                        @endauth
+
+
+                        
+                        @auth
+                     
+                        usuario atenticado
+                        <!-- Contenido para usuarios autenticados -->
+                        @else
+                            <!-- Contenido para usuarios no autenticados -->
+                            <pre>no autenticado</pre>
+                        @endauth                            
+
                     </div>
             </div>
         </div>
@@ -45,31 +66,36 @@
        
         <div class="bg-white">
             <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-            <h2 class="sr-only">Products</h2>
+            <h2>productos </h2>
+            <pre>{{Auth::user()}}--final</pre>
         
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                     
-                    @foreach ($productos as $producto)
-                        
-                        <a href="#" class="group">
 
-                            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-                                <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
-                            </div>
-                            <h3 class="mt-4 text-sm text-gray-700">{{$producto->nombreProducto}}</h3>
-                            <div class="flex  justify-between">
+                @if (isset($productos))
+                    
+                @foreach ($productos as $producto)
+                    
+                    <a href="#" class="group">
 
-                                <p class="mt-1 text-lg font-medium text-gray-900">{{$producto->precioProducto}}</p>
-                                <p class="mt-1 text-lg font-medium text-gray-900">stock: {{$producto->stockProducto}}</p>
-                            </div>
-                            <div class=" flex justify-between">
-                                
-                                <button>Agregar 🛒</button>
-                                <button>Comprar</button>
-                            </div>
+                        <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                            <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+                        </div>
+                        <h3 class="mt-4 text-sm text-gray-700">{{$producto->nombreProducto}}</h3>
+                        <div class="flex  justify-between">
+
+                            <p class="mt-1 text-lg font-medium text-gray-900">{{$producto->precioProducto}}</p>
+                            <p class="mt-1 text-lg font-medium text-gray-900">stock: {{$producto->stockProducto}}</p>
+                        </div>
+                        <div class=" flex justify-between">
                             
-                        </a>
-                    @endforeach
+                            <button>Agregar 🛒</button>
+                            <button>Comprar</button>
+                        </div>
+                        
+                    </a>
+                @endforeach
+                @endif
              
 
                         {{-- <a href="#" class="group">

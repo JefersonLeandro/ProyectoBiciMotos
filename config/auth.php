@@ -62,7 +62,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Usuario::class,//en vez de que utilize por defecto el modelo users utiliza es usarios ya que es ese el que esta en la base de datos
+            'model' => App\Models\Usuario::class,
         ],
 
         // 'users' => [

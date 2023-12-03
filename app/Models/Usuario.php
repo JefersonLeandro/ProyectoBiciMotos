@@ -2,37 +2,50 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-// use Illuminate\Auth\Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Usuario extends Authenticatable  {
+class Usuario extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
 
-    use HasFactory;
-    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $table ='usuarios';// personalizar la tabla y ademas para que la clase auth la pueda encontrar. 
 
     protected $fillable = [
         'nombreUsuario',
         'apellidoUsuario',
         'identificacionUsuario',
-        'emailUsuario',
-        'passwordUsuario',
+        'email',
+        'password',
         'idRol',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
-        'passwordUsuario',
+        'password',
         'remember_token',
     ];
 
 
-    public function getAuthPassword()//para que apunte al passwordUsuario en vez de password 
-    {
-        return $this->passwordUsuario;
-    }
-
-
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 }

@@ -25,22 +25,23 @@ use Illuminate\Support\Facades\Route;
 
 
 
+// Route::middleware(['web'])->group(function () {
 
-//Rutas generales
-Route::get('/' , [controladorProducto::class,'index'])->name("index");
-
-
-
-
-//Navegar sobre los formularios
-Route::view("/registro","auth.registro")->name("registro");
-Route::view("/login","auth.login")->name("login");
+    //Rutas generales
+    Route::get('/' , [controladorProducto::class,'index'])->name("index");
 
 
 
-//Enviar y cargar un metodo
-Route::post("/registrar",[controladorRegistrarUsuario::class,'store'])->name("auth.Registrar");
-Route::post("/autenticarUsuario",[controladorAutenticarUsuario::class,'store'])->name("auth.Usuario");
- 
+
+    //Navegar sobre los formularios
+    Route::view("/registro","auth.registro")->name("registro");
+    Route::view("/login","auth.login")->name("login");
+
+
+
+    //Enviar y cargar un metodo
+    Route::post("/registrar",[controladorRegistrarUsuario::class,'store'])->name("auth.Registrar");
+    Route::post("/autenticarUsuario",[controladorAutenticarUsuario::class,'store'])->name("auth.Usuario");
+// });
 
 
