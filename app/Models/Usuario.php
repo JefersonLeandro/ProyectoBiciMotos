@@ -17,9 +17,11 @@ class Usuario extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $table ='usuarios';// personalizar la tabla y ademas para que la clase auth la pueda encontrar. 
 
+    protected $table ='usuarios';
+    protected $primaryKey  ='idUsuario'; 
     protected $fillable = [
+        
         'nombreUsuario',
         'apellidoUsuario',
         'identificacionUsuario',
@@ -37,7 +39,6 @@ class Usuario extends Authenticatable
         'password',
         'remember_token',
     ];
-
 
     /**
      * The attributes that should be cast.
