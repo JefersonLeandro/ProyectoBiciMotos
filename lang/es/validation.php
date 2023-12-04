@@ -162,7 +162,7 @@
         "team_trial_will_expire_on" => "El periodo de prueba del equipo expirará el :date.",
         "teams" => "Equipos",
         "teams_currently_trialing" => "Equipos actualmente",
-        "unique" => "Este :attribute ya esta registrado en la base de datos"
+        "unique" => "El :attribute ya esta registrado en la base de datos"
         
         ,    
   

@@ -3,6 +3,7 @@
 use App\Http\Controllers\auth\controladorRegistrarUsuario;
 use App\Http\Controllers\auth\controladorAutenticarUsuario;
 use App\Http\Controllers\controladorProducto;
+use App\Http\Controllers\controladorCarrito;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,7 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-// Route::middleware(['web'])->group(function () {
+
 
     //Rutas generales
     Route::get('/' , [controladorProducto::class,'index'])->name("index");
@@ -36,6 +37,8 @@ use Illuminate\Support\Facades\Route;
     //Navegar sobre los formularios
     Route::view("/registro","auth.registro")->name("registro");
     Route::view("/login","auth.login")->name("login");
+    Route::view("/carrito","carritoCompras")->name("carrito");
+
 
 
 
@@ -43,6 +46,8 @@ use Illuminate\Support\Facades\Route;
     Route::post("/registrar",[controladorRegistrarUsuario::class,'store'])->name("auth.Registrar");
     Route::post("/autenticarUsuario",[controladorAutenticarUsuario::class,'store'])->name("auth.Usuario");
     Route::post("/logout",[controladorAutenticarUsuario::class,'destroy'])->name("auth.logout");
-// });
+    Route::post("/agregarCarrito/{idProducto}",[controladorCarrito::class,'store'])->name("agregarCarrito");
+
+
 
 
