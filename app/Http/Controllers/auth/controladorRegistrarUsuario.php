@@ -19,8 +19,8 @@ class controladorRegistrarUsuario extends Controller
             "nombreUsuario"=>['required', 'string', 'max:60'],
             "apellidoUsuario"=>['required', 'string', 'max:60'],
             "identificacionUsuario"=>['required', 'string', 'max:12'],
-            "emailUsuario"=>['required', 'string', 'email' , 'max:255' , 'unique:Usuarios'],
-            "passwordUsuario"=>['required', 'string', 'confirmed:passwordUsuario_confirmation','max:255',Rules\Password::defaults()] 
+            "email"=>['required', 'string', 'email' , 'max:255' , 'unique:Usuarios'],
+            "password"=>['required', 'string', 'confirmed:password_confirmation','max:255',Rules\Password::defaults()] 
 
         ]);
 
@@ -30,8 +30,8 @@ class controladorRegistrarUsuario extends Controller
             "nombreUsuario" =>$request->nombreUsuario,
             "apellidoUsuario" => $request->input("apellidoUsuario"),
             "identificacionUsuario" => $request->input("identificacionUsuario"),
-            "passwordUsuario" => bcrypt($request->passwordUsuario),
-            "emailUsuario" =>$request->emailUsuario,
+            "password" => bcrypt($request->password),
+            "email" =>$request->email,
             "idRol" => $request->input("idRol"),
             
         ]);

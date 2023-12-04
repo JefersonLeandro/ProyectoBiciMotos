@@ -36,22 +36,22 @@
                     @enderror
                 
                 <label for="">email</label>
-                <input type="email" name="emailUsuario" class=" border-4  border-solid " value="{{old('emailUsuario')}}">
+                <input type="email" name="email" class=" border-4  border-solid " value="{{old('email')}}">
 
-                    @error('emailUsuario')
+                    @error('email')
                         <small style="color: red;  ">{{$message}}</small>
             
                     @enderror
 
                 <label for="">Contraseña</label>
-                <input type="password" class=" border-4  border-solid " name="passwordUsuario" value="{{old('passwordUsuario')}}">
-                    @error('passwordUsuario')
+                <input type="password" class=" border-4  border-solid " name="password" value="{{old('password')}}">
+                    @error('password')
                     <small style="color: red;  ">{{$message}}</small>
             
                     @enderror
 
                 <label for="">Confirme la contraseña</label>
-                <input type="password" class=" border-4  border-solid " name="passwordUsuario_confirmation" value="{{old('passwordUsuario_confirmation')}}">
+                <input type="password" class=" border-4  border-solid " name="password_confirmation" value="{{old('password_confirmation')}}">
 
                 <input type="hidden" name="idRol" value="1">
 
