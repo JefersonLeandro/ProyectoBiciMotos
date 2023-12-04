@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\Route;
     //Enviar y cargar un metodo
     Route::post("/registrar",[controladorRegistrarUsuario::class,'store'])->name("auth.Registrar");
     Route::post("/autenticarUsuario",[controladorAutenticarUsuario::class,'store'])->name("auth.Usuario");
+    Route::post("/logout",[controladorAutenticarUsuario::class,'destroy'])->name("auth.logout");
 // });
 
 

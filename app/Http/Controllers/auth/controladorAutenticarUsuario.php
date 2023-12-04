@@ -39,4 +39,18 @@ class controladorAutenticarUsuario extends Controller
 
     }
 
+    public function destroy(Request $request){
+
+
+        // return "dentre al destroy";
+
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return to_route("index")->with("estado","has cerrado sesion");
+
+
+    }
+
 }
