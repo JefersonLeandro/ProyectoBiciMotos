@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 
     //Rutas generales
     Route::get('/' , [controladorProducto::class,'index'])->name("index");
-
+    //hacer una de tipo get para mostrar el tamano
 
 
 

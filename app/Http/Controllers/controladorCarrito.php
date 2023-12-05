@@ -26,5 +26,11 @@ class controladorCarrito extends Controller
         return back();
     }
 
+    public function obtenerTamanoCarrito(){
+
+
+        return "alsdjalsdf";
+    }
+
 
 }

@@ -20,15 +20,22 @@
                         </div>
                         
 
-                        <a  href="{{route("carrito")}}" class=" ancho30 h-full flex justify-center items-center" >
-                            <ul class="flex gap-4 ">
-                                <li  class=" underline cursor-pointer">Carrito(0)</li>
+                        <div  class=" ancho30 h-full flex justify-center items-center" >
+                            <ul class="flex gap-4 flex justify-center items-center">
+
+                                @auth
+                                    <li class=" underline cursor-pointer"><a href="{{route("carrito")}}">carrito({{$tamanoCarrito}})</a></li>
+                                @else
+                                    <li class=" underline cursor-pointer"><a href="{{route("carrito")}}">Carrito(0)</a></li>
+
+                                @endauth
+
                                 <li class=" underline">item</li>
                                 <li class=" underline">item</li>
                                 <li class=" underline">item</li>
                                 <li class=" underline">item</li>
                             </ul>
-                        </a>
+                        </div>
 
 
                         @guest
