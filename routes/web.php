@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\Route;
     //Navegar sobre los formularios
     Route::view("/registro","auth.registro")->name("registro");
     Route::view("/login","auth.login")->name("login");
-    Route::view("/carrito","carritoCompras")->name("carrito");
+    Route::get("/carrito",[controladorCarrito::class,'index'])->name("carrito");
 
 
 

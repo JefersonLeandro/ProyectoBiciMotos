@@ -6,7 +6,7 @@ meta-description="Esta es la descripcion de login"
 
 <main class="flex justify-center items-center " style="height: 70vh">
     
-    <div class="bg-zinc-100  w-1/3  rounded  " id="boxShadow" style="height: 55vh;">
+    <div class="bg-zinc-100  w-1/3  rounded  " id="boxShadow" style="height: 58vh;">
         <div class=" pl-10 h-16 w-auto flex items-center  mt-3 ">
             <h1 class=" text-black-600 text-3xl" >Login</h1>
         

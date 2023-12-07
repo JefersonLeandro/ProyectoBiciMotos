@@ -21,7 +21,7 @@
                         
 
                         <div  class=" ancho30 h-full flex justify-center items-center" >
-                            <ul class="flex gap-4 flex justify-center items-center">
+                            <ul class="flex gap-4 justify-center items-center">
 
                                 @auth
                                     <li class=" underline cursor-pointer"><a href="{{route("carrito")}}">carrito({{$tamanoCarrito}})</a></li>
