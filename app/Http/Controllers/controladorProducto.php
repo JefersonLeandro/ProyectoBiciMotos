@@ -18,6 +18,7 @@ class controladorProducto extends Controller
         if(Auth::user()){
 
             $numeroCarritos = $this->obtenerTamanoCarrito();
+            
             return view('index', ['productos' => $productos ,'tamanoCarrito'=>$numeroCarritos]);
         }
        

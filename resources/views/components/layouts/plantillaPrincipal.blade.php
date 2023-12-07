@@ -9,20 +9,16 @@
     @vite(['resources/css/styles.css','resources/js/script.js'])
 </head>
 <body>
+    
+  
     @if (session("estado"))
-   
-        <div class="bg-white border-t border-b border-black px-4 py-3" role="alert">
-            <strong class="font-clear cleartext-black-500">{{session('estado')}}</strong>
-            <p class="text-sm text-black-400 ">accion realizada correctamente</p>
-        </div>
+    
+    <div class="bg-white border-t border-b border-black px-4 py-3" role="alert">
+        <strong class="font-clear cleartext-black-500">{{session('estado')}}</strong>
+        <p class="text-sm text-black-400 ">accion realizada correctamente</p>
+    </div>
     
     @endif
-
-
-
-
-    
     {{$slot}}
-    
 </body>
 </html>

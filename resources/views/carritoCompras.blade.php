@@ -49,34 +49,41 @@
       <div class="w-11/12  h-full flex pt-5" >
         
         <section class=" w-3/5 p-5 flex flex-col gap-4 ">
+
+          @foreach ($informacionCarrito as $carrito)
+              
+       
           <div class="p-3 h-36 rounded flex border-solid border-black border">
             <div class=" w-1/5  ">
               <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
             </div>
             <div class=" w-3/5 pl-3 pr-3">
                 <div class="w-full h-3/5 ">
-                  <p>Lorem ipsum dolor sit amet, praesentium laborum, quos recusandae fuga?</p>
+                 
+                  <p>{{$carrito->nombreProducto}}</p>
                 </div>
                 <div class="w-full h-2/5  flex justify-between pr-9">
-                  <strong>stock en linea :(3)</strong>
+                  <strong>stock en linea :({{$carrito->stockProducto}})</strong>
                   <div class="flex items-center w-44">
                     <button type="button" class=" w-10 h-10 border border-black  text-xl ">
                     +
                     </button>
-                    <span class="w-10 border border-black h-10 text-xl flex items-center justify-center">2</span>
+                    <span class="w-10 border border-black h-10 text-xl flex items-center justify-center">{{$carrito->cantidadCarrito}}</span>
                     <button class="w-10 border border-black h-10 text-2xl">-</button>
                   </div>
                 </div>              
             </div>
             <div class="w-1/5  ">
               <div class=" h-14 p-3 flex items-center justify-center text-lg">
-                <strong>$400.000$</strong>  
+                <strong>${{$carrito->precioProducto}}$</strong>  
               </div>
               <div>
+               <input type="hidden" name="idCarritoCompra" value="{{$carrito->idCarritoCompra}}">
                 <button class=" bg-neutral-300 w-full h-14 p-3 flex items-center justify-center text-lg">Eliminar</button>
               </div>
             </div>
           </div>
+          @endforeach
           
         </section>
         <section class=" w-2/5 flex justify-center">
