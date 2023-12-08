@@ -40,11 +40,15 @@ class controladorCarrito extends Controller
 
 
         $idProducto = $request->idProducto;
+        $idUsuario = Auth::user()->idUsuario;
+        
         $verificacion = false;
         
 
-        $carritos = carritoCompra::get();
+        $carritos = carritoCompra::where('idUsuario',$idUsuario)->get();
 
+     
+        
         if($carritos->isEmpty()){
 
            $this->insertarCarrito($request);
@@ -52,8 +56,6 @@ class controladorCarrito extends Controller
         }else{
 
             foreach($carritos as $carrito){
-    
-                
     
                 if($idProducto == $carrito->idProducto){ //2 [1,3,3,3]  // 2 [1,3,2,3,2]
 
@@ -65,7 +67,7 @@ class controladorCarrito extends Controller
 
             if($verificacion){
 
-                 $this->actualizarCantidadCarrito($request);
+                 $this->actualizarCantidadCarrito($request ,$idUsuario,$idProducto);
 
             }else{
 
@@ -78,20 +80,45 @@ class controladorCarrito extends Controller
         return back();
     }
 
-    public function actualizarCantidadCarrito(Request $request){
+    public function actualizarCantidadCarrito(Request $request, $idUsuario, $idProducto){
 
+   
+       
         //update de la cantidad carrito en +1 , obtengo la cantidad le sumo uno y la actualizo.
 
-        $idProducto = $request->idProducto;
-        $findCarrito = carritoCompra::where('idProducto',$idProducto)->firstOrFail();//encuentra el registro con el idProducto
-        $cantidadCarrito =  $findCarrito->cantidadCarrito + 1;//se le suma 1 para actualizar la cantidad
+        // SELECT carritocompras.idCarritoCompra, carritocompras.idProducto, carritocompras.idUsuario , carritocompras.cantidadCarrito, productos.stockProducto FROM productos
+        // INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto WHERE carritocompras.idUsuario =1 and productos.idProducto=2;
 
-     
+        $carritoEncontrado = DB::table('productos')//encontrar un carrito especificamente con el stock del producto
+            ->join('carritocompras','productos.idProducto','=','carritocompras.idProducto')
+            ->where('carritocompras.idUsuario','=',$idUsuario)
+            ->where('carritocompras.idProducto','=',$idProducto)
+            ->select('carritocompras.idCarritoCompra','carritocompras.idProducto','carritocompras.idUsuario','carritocompras.cantidadCarrito','productos.stockProducto')
+            ->first();
 
-        $findCarrito ->update([//se actualiza el registro encontrado
+           
+            $idCarritoEncontrado= $carritoEncontrado->idCarritoCompra;
+            $stockProducto = $carritoEncontrado->stockProducto;//12
+            $cantidadCarrito = $carritoEncontrado->cantidadCarrito+1;//8 , //se le suma 1 para actualizar la cantidad
 
-            "cantidadCarrito" =>$cantidadCarrito,
-        ]);
+            if($cantidadCarrito <= $stockProducto){
+
+                DB::table('carritocompras')//utilizar la consulta del inner join ya realizada
+                ->where('idCarritoCompra', $idCarritoEncontrado)
+                ->update(['cantidadCarrito' => $cantidadCarrito]); //se actualiza la cantidad
+                
+            }else{
+                //no se actualiza la cantidad y se manda un mensaje producto fuera de stock 
+                return back()->with('estado','producto fuera de stock');
+            }
+       
+       
+        // $findCarrito = carritoCompra::where([
+
+        //     'idProducto'=>$idProducto,
+        //     'idUsuario'=>$idUsuario,
+
+        // ])->firstOrFail();//encuentra el registro con el idProducto y el idUsuario
 
 
     }
@@ -107,6 +134,15 @@ class controladorCarrito extends Controller
 
     }
 
+    public function eliminarUnCarrito(Request $request , $idCarritoCompra){
+
+
+        $findCarrito = carritoCompra::findorfail($idCarritoCompra); 
+
+        $findCarrito->delete();
+        return back();
+
+    }
    
 
 }

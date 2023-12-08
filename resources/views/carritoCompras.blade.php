@@ -49,44 +49,55 @@
       <div class="w-11/12  h-full flex pt-5" >
         
         <section class=" w-3/5 p-5 flex flex-col gap-4 ">
-
-          @foreach ($informacionCarrito as $carrito)
-              
-       
-          <div class="p-3 h-36 rounded flex border-solid border-black border">
-            <div class=" w-1/5  ">
-              <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
-            </div>
-            <div class=" w-3/5 pl-3 pr-3">
-                <div class="w-full h-3/5 ">
-                 
-                  <p>{{$carrito->nombreProducto}}</p>
-                </div>
-                <div class="w-full h-2/5  flex justify-between pr-9">
-                  <strong>stock en linea :({{$carrito->stockProducto}})</strong>
-                  <div class="flex items-center w-44">
-                    <button type="button" class=" w-10 h-10 border border-black  text-xl ">
-                    +
-                    </button>
-                    <span class="w-10 border border-black h-10 text-xl flex items-center justify-center">{{$carrito->cantidadCarrito}}</span>
-                    <button class="w-10 border border-black h-10 text-2xl">-</button>
+          @auth  
+            @foreach ($informacionCarrito as $carrito)
+            
+            
+            <div class="p-3 h-36 rounded flex border-solid border-black border">
+              <div class=" w-1/5  ">
+                <img src="{{asset('imagenes/vino.jpg') }}" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="h-full w-full object-cover object-center group-hover:opacity-75">
+              </div>
+              <div class=" w-3/5 pl-3 pr-3">
+                  <div class="w-full h-3/5 ">
+                  
+                    <p>{{$carrito->nombreProducto}}</p>
                   </div>
-                </div>              
-            </div>
-            <div class="w-1/5  ">
-              <div class=" h-14 p-3 flex items-center justify-center text-lg">
-                <strong>${{$carrito->precioProducto}}$</strong>  
+                  <div class="w-full h-2/5  flex justify-between pr-9">
+                    <strong>stock en linea :({{$carrito->stockProducto}})</strong>
+                    <div class="flex items-center w-44">
+                      <button type="button" class=" w-10 h-10 border border-black  text-xl ">
+                        +
+                      </button>
+                      <span class="w-10 border border-black h-10 text-xl flex items-center justify-center">{{$carrito->cantidadCarrito}}</span>
+                      <button class="w-10 border border-black h-10 text-2xl">-</button>
+                    </div>
+                  </div>              
+                </div>
+                <div class="w-1/5  ">
+                  <div class=" h-14 p-3 flex items-center justify-center text-lg">
+                    <strong>${{$carrito->precioProducto}}$</strong>  
+                  </div>
+                  <form action="{{route("eliminarCarrito",$carrito->idCarritoCompra)}} " method="POST">
+                    @csrf
+                    <input type="hidden" name="idCarritoCompra" value="{{$carrito->idCarritoCompra}}">
+                    <button class=" bg-neutral-300 w-full h-14 p-3 flex items-center justify-center text-lg">Eliminar</button>
+                  </form>
+                </div>
               </div>
-              <div>
-               <input type="hidden" name="idCarritoCompra" value="{{$carrito->idCarritoCompra}}">
-                <button class=" bg-neutral-300 w-full h-14 p-3 flex items-center justify-center text-lg">Eliminar</button>
-              </div>
-            </div>
-          </div>
-          @endforeach
+            @endforeach
+              
+          @else
+              <strong class="text-xl">¡Carrito vacio!</strong>
+              <p class="text-lg">Para agregar un producto primero debes iniciar sesion <a href="{{route('login')}}" class="underline">aqui</a></p>
+
+          @endauth
           
         </section>
+     
+            
+        
         <section class=" w-2/5 flex justify-center">
+          @auth
           <div class=" w-8/12">
             <div class="p-6 flex flex-col gap-5" style="height:50%">
               <div class="border border-black h-14 flex items-center pl-2 rounded text-lg gap-2">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
@@ -108,6 +119,7 @@
                 
             </div>
           </div>
+          @endauth
         </section>
       </div>
     </div>

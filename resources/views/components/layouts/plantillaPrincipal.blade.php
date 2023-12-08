@@ -7,6 +7,8 @@
     <meta name="descripcion" content="{{$metaDespcripcion ?? 'descripcion por defecto'}}" >
     <title>{{$title ?? ''}}</title>
     @vite(['resources/css/styles.css','resources/js/script.js'])
+
+    
 </head>
 <body>
     
@@ -19,6 +21,18 @@
     </div>
     
     @endif
+   
+
     {{$slot}}
+
+    
+    {{-- @if (session("alerta"))
+    <div>
+        <script>
+            window.alert('{{ session('alerta') }}');
+        </script>
+    </div>
+    @endif --}}
 </body>
+
 </html>

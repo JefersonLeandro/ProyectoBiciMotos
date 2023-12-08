@@ -47,6 +47,7 @@ use Illuminate\Support\Facades\Route;
     Route::post("/autenticarUsuario",[controladorAutenticarUsuario::class,'store'])->name("auth.Usuario");
     Route::post("/logout",[controladorAutenticarUsuario::class,'destroy'])->name("auth.logout");
     Route::post("/agregarCarrito/{idProducto}",[controladorCarrito::class,'store'])->name("agregarCarrito");
+    Route::post("/eliminarCarrito/{idCarrito}",[controladorCarrito::class,'eliminarUnCarrito'])->name("eliminarCarrito");
 
 
 
