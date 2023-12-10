@@ -25,21 +25,14 @@ use Illuminate\Support\Facades\Route;
 // })->name('index');
 
 
-
-
-
     //Rutas generales
     Route::get('/' , [controladorProducto::class,'index'])->name("index");
-    //hacer una de tipo get para mostrar el tamano
 
 
-
-    //Navegar sobre los formularios
+    //Navegar sobre los formularios o vistas
     Route::view("/registro","auth.registro")->name("registro");
     Route::view("/login","auth.login")->name("login");
     Route::get("/carrito",[controladorCarrito::class,'index'])->name("carrito");
-
-
 
 
     //Enviar y cargar un metodo
