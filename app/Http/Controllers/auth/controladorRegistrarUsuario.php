@@ -11,7 +11,7 @@ class controladorRegistrarUsuario extends Controller
 {
     public function store(Request $request){//almacenar los datos del usuario 
 
-        
+        $nombre = $request->nombreUsuario;
        
         $request->validate([//verificacion de los campos 
 

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="descripcion" content="{{$metaDespcripcion ?? 'descripcion por defecto'}}" >
     <title>{{$title ?? ''}}</title>
-    @vite(['resources/css/styles.css','resources/js/script.js'])
+    @vite(['resources/css/styles.css','resources/js/app.js'])
 
     
 </head>

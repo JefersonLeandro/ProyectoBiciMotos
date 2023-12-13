@@ -1,6 +1,7 @@
+import jQuery from 'jquery';
+window.$ = jQuery;	
+
 import './bootstrap';
-
-
 // SCRIPT CARRITO COMPRAS
 
 // console.log("javaScript cargado");
