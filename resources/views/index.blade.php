@@ -82,6 +82,10 @@
                 @if (isset($productos))
                     
                 @foreach ($productos as $producto)
+
+                    @php
+                        $stockProducto = $producto->stockProducto;
+                    @endphp
                     
                     <div href="#" class=" flex flex-col">
                         <a href="#">
@@ -98,11 +102,17 @@
                         
                         @auth
 
-                            <form class=" flex justify-between" action="{{route("agregarCarrito",$producto->idProducto)}}" method="POST">
-                                @csrf
-                                <button>Agregar 🛒</button>
-                                <button type="button">Comprar</button>
-                            </form>
+                            @if ($stockProducto > 0)
+                                <form class=" flex justify-between" action="{{route("agregarCarrito",$producto->idProducto)}}" method="POST">
+                                    @csrf
+                                    <button>Agregar 🛒</button>
+                                    <button type="button">Comprar</button>
+                                </form>
+                            @else
+
+                                <p class="text-red-400">Producto sin stock</p> 
+
+                            @endif
                             
 
                         @else

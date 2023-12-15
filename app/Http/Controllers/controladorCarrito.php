@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\carritoCompra;
+use App\Models\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,10 +31,56 @@ class controladorCarrito extends Controller
             $informacionCarrito = DB::table('productos')
                 ->join('carritoCompras', 'productos.idProducto', '=', 'carritoCompras.idProducto')
                 ->where('carritoCompras.idUsuario', '=', $idUsuario)
-                ->select('carritoCompras.cantidadCarrito', 'carritoCompras.idCarritoCompra', 'productos.idProducto', 'productos.nombreProducto', 'productos.precioProducto', 'productos.stockProducto')
+                ->select('carritoCompras.idCarritoCompra', 'productos.idProducto','productos.nombreProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto', 'productos.stockProducto')
                 ->get();
 
-            return view("carritoCompras", ['tamanoCarrito' => $tamanoCarrito, 'informacionCarrito' => $informacionCarrito]);
+                
+                // return $informacionCarrito;
+            //comprobacion para cuando el stock de un producto quede en cero 
+            $productosAgotados = [];
+            $agotado = false;
+
+            foreach ($informacionCarrito as $carrito) {
+
+                $stockProducto = $carrito->stockProducto;
+                $idCarrito = $carrito->idCarritoCompra;
+
+                if($stockProducto == 0){
+                    // return $idCarrito;
+                    DB::table('carritocompras') //utilizar la consulta del inner join ya realizada
+                    ->where('idCarritoCompra', $idCarrito)
+                    ->delete();
+                    
+                    $productosAgotados[] = [
+                        'nombreProducto' => $carrito->nombreProducto,
+                        'precioProducto' => $carrito->precioProducto
+                    ];
+                    $agotado = true;
+
+                    //hacer un inner join para actualizar
+                }
+               
+            }
+            
+            if($agotado){
+
+                //inner join para tomar la informacion actualizada ya con los productos eliminados donde su stock fue cero 
+
+                $informacionCarritoActulizada = DB::table('productos')
+                ->join('carritoCompras', 'productos.idProducto', '=', 'carritoCompras.idProducto')
+                ->where('carritoCompras.idUsuario', '=', $idUsuario)
+                ->select('carritoCompras.idCarritoCompra', 'productos.idProducto','productos.nombreProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto', 'productos.stockProducto')
+                ->get();
+
+
+                return view("carritoCompras", ['tamanoCarrito' => $tamanoCarrito, 'informacionCarrito' => $informacionCarritoActulizada,'productosAgotados' =>$productosAgotados]);
+            }else{
+
+                return view("carritoCompras", ['tamanoCarrito' => $tamanoCarrito, 'informacionCarrito' => $informacionCarrito]);
+
+            }
+
+
         }
         return view("carritoCompras");
 
@@ -42,41 +89,65 @@ class controladorCarrito extends Controller
     {
 
 
-        $idProducto = $request->idProducto;
+        $idP = $request->idProducto;
         $idUsuario = Auth::user()->idUsuario;
 
         $verificacion = false;
 
         $carritos = carritoCompra::where('idUsuario', $idUsuario)->get();
 
+        $idProducto = intval($idP);//parseo a entero
+
+        //producto sin stock hacer validacion si el stock es cero
+        //consulta donde verifique si el stock es igual a cero  
+        
+        // SELECT * FROM productos WHERE stockProducto =0 AND idProducto = 1;
+
+      
 
 
-        if ($carritos->isEmpty()) {
+        if( is_numeric($idProducto) && ($idProducto > 0)){
 
-            $this->insertarCarrito($request);
 
-        } else {
 
-            foreach ($carritos as $carrito) {
+            $comprobacion = Producto::where('stockProducto',0)
+            ->where('idProducto',$idProducto)
+            ->exists();
+            
 
-                if ($idProducto == $carrito->idProducto) { //2 [1,3,3,3]  // 2 [1,3,2,3,2]
+            if(!$comprobacion){//metodo exitsts devuelve true si encuentra un registro y false si no .
 
-                    $verificacion = true;
+                 // No hay productos con stock cero y el ID dado
 
+                if ($carritos->isEmpty()) {
+
+                    $this->insertarCarrito($request);
+    
+                }else {
+            
+    
+                    foreach ($carritos as $carrito) {
+    
+                        if ($idProducto == $carrito->idProducto) { //2 [1,3,3,3]  // 2 [1,3,2,3,2]
+    
+                            $verificacion = true;
+    
+                        }
+    
+                    }
+    
+                    if ($verificacion) {
+                        
+    
+                        //arreglar poner verificacion
+                        $this->actualizarCantidadCarrito($request, $idUsuario, $idProducto,true);
+    
+                    } else {
+    
+                        $this->insertarCarrito($request);
+    
+                    }
                 }
-
-            }
-
-            if ($verificacion) {
-                $desicion = true;
-
-                //arreglar poner verificacion
-                $this->actualizarCantidadCarrito($request, $idUsuario, $idProducto,$desicion);
-
-            } else {
-
-                $this->insertarCarrito($request);
-
             }
 
         }
@@ -142,7 +213,7 @@ class controladorCarrito extends Controller
 
     public function eliminarUnCarrito(Request $request, $idCarritoCompra)
     {
-        $findCarrito = carritoCompra::findorfail($idCarritoCompra);
+        $findCarrito = carritoCompra::findOrfail($idCarritoCompra);
         $findCarrito->delete();
         return back();
     }
@@ -155,7 +226,7 @@ class controladorCarrito extends Controller
         $cantidad = $request->cantidad;
         $idProducto = $request->idProducto;
         $idCarrito = $request->idCarrito;
-        $desicion = false;
+  
 
         if($cantidad!=null && $idProducto!=null && $idCarrito!=null){
 
@@ -164,14 +235,14 @@ class controladorCarrito extends Controller
             if($verificacion){
 
                 $idUsuario = Auth::user()->idUsuario;
-                $stockDisponible =  $this->actualizarCantidadCarrito($request, $idUsuario, $idProducto,$desicion);
+                $stockDisponible =  $this->actualizarCantidadCarrito($request, $idUsuario, $idProducto,false);
 
                 return response()->json(['stock  disponible' => $stockDisponible]);
 
             }
         }  
         
-        //cantidad es menor eliminar carrito
+        // si la cantidad es menor a cero , contiene letras o otra cosa elimina el carrito . 
         $this->eliminarUncarrito($request,$idCarrito);
         return response()->json([""]);
 
@@ -185,7 +256,7 @@ class controladorCarrito extends Controller
 
             $numero = intval($cantidad);//convertir a entero 
 
-            if ($numero > 0) {
+            if ($numero > 0 && is_numeric($numero)) {
                
                 $verificacion = true;
             }

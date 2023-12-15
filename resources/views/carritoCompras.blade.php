@@ -15,6 +15,23 @@
                     @else
                         <span>Cantidad(0)</span>
                     @endauth
+
+                    {{-- @if (isset($productosAgotados))
+                        <script>
+                            // Convertir el array de PHP a una cadena JSON
+                            let productosAgotados = @json($productosAgotados);
+                            // Guardar el array completo en localStorage
+                            window.localStorage.setItem('productosAgotados', JSON.stringify(productosAgotados));
+                    
+                            // Puedes acceder a los elementos del array en JavaScript
+                            productosAgotados.forEach(element => {
+                                console.log(element.nombreProducto, element.precioProducto);
+                            });
+                        </script>
+                    @endif --}}
+                
+                
+
                 </div>
                 <div class="flex items-center justify-start list-none  gap-5 w-2/5 ">
                     <li>items</li>
@@ -73,17 +90,17 @@
                                                 @if ($cantidad >= 10)
                                                     <input type="text" value="{{ $cantidad }}" maxlength="3"
                                                         autocomplete="off" onclick="mostrarBoton(this)"
-                                                        class=" inputcantidadd border border-black w-12 p-1 box-border h-6">
+                                                        class=" inputcantidadd border border-black w-12 p-1 box-border h-6" >
                                                 @else
                                                     <select name="cantidad" class="miSelect border border-black w-14 "
                                                         onchange='ocultarYMotrar()' data-asociado="inputCantidad">
-                                                        <option value="0">0 -Eliminar</option>
+                                                       
                                                         @for ($i = 1; $i < 10; $i++)
                                                             @if ($cantidad == $i)
-                                                                <option value="{{ $i }}" selected>
+                                                                <option value="{{ $i.",".$stockProducto.",".$idCarrito.",".$idProducto }}" selected>
                                                                     {{ $i }}</option>
                                                             @else
-                                                                <option value="{{ $i }}">{{ $i }}
+                                                                <option value="{{ $i.",".$stockProducto.",".$idCarrito.",".$idProducto }}">{{ $i }}
                                                                 </option>
                                                             @endif
                                                         @endfor
@@ -92,10 +109,10 @@
 
                                                     <input type="hidden" autofocus value="{{ $cantidad }}"
                                                         maxlength="3" autocomplete="off"
-                                                        class="inputCantidadd border border-black w-12 p-1 box-border h-6">
+                                                        class="inputCantidadd border border-black w-12 p-1 box-border h-6" >
                                                 @endif
                                                 
-                                                <button value="{{$idCarrito.','.$idProducto.','.$stockProducto}}" class="btnActualizar border border-black">Actualizar</button>
+                                                <button value="{{$idCarrito.','.$idProducto.','.$stockProducto}}"  class="btnActualizar border border-black">Actualizar</button>
                                                 
                                             </div>
 
@@ -134,30 +151,60 @@
 
                 <section class=" w-2/5 flex justify-center">
                     @auth
-                        <div class=" w-8/12">
-                            <div class="p-6 flex flex-col gap-5" style="height:50%">
-                                <div class="border border-black h-14 flex items-center pl-2 rounded text-lg gap-2">
-                                    <strong>Subtotal:</strong>
-                                    <p>400.000</p>
+                        <div class=" w-8/12 flex flex-col items-center">
+                            @if (isset($productosAgotados))
+                             <div class="border border-solid border-black p-3 h-auto w-80">
+                                <p class="text-red-400 text-lg">Productos agotados</p>
+                                <ul class="cursor-pointer">
+                                 
+                                    @foreach ($productosAgotados as $productoAgotado) 
+                                        <li class=" text-slate-600 hover:text-slate-950" >-{{ $productoAgotado['nombreProducto'] . " " . $productoAgotado['precioProducto'] }}</li>
+
+                                    @endforeach
+                                </ul>
                                 </div>
-                                <div class="border border-black h-14 flex items-center pl-2 rounded text-lg gap-2">
+                            @endif 
+                            <div class="p-6 flex flex-col gap-5 w-auto" style="height:20%">
+                                <div class="border border-black h-14 flex items-center w-56 pl-2 rounded text-lg gap-2">
+                                    <strong>Subtotal:</strong>
+                                    <p>400.000.000</p>
+                                </div>
+                                {{-- <div class="border border-black h-14 flex items-center pl-2 rounded text-lg gap-2">
                                     <strong>Iva - 19% :</strong>
                                     <p>76.000</p>
                                 </div>
                                 <div class="border border-black h-14 flex items-center pl-2 rounded text-lg gap-2">
                                     <strong> Total :</strong>
                                     476.000
-                                </div>
-                                <div>
-                                    <input type="text" maxlength="3" class=" cuadroT border border-solid border-black">
-                                    <button onclick="verificarCantidad()">actulizar</button>
-                                </div>
+                                </div> --}}
+                                
+                                {{-- <input type="text" maxlength="3" class=" cuadroT border border-solid border-black">
+                                <button onclick="verificacion()">actulizar</button> --}}
+                                {{-- <script>//mostrarlos en una solo vista sin tener que recargar y si recarga que se borren solos y ya.
+                    
+                                    // Recuperar el array almacenado en localStorage
+                                    var arrayProductos = JSON.parse(window.localStorage.getItem('productosAgotados'));
+
+                                    // Iterar sobre los productos y agregarlos a la lista
+                                    var listaProductos = document.getElementById('listaProductosAgotados');
+
+                                    arrayProductos.forEach(element => {
+                                        var nuevoElemento = document.createElement('li');
+                                        nuevoElemento.textContent = '- ' + element.nombreProducto + ' ' + element.precioProducto;
+                                        listaProductos.appendChild(nuevoElemento);
+                                    });
+                                </script> --}}
+
+
+                               
+
                             </div>
                             <div class=" flex items-center flex-col gap-3" style="height: 20%">
                                 <button class="border border-black w-32 h-10 ">Generar factura</button>
                                 <a href="{{ route('index') }}" class="underline">Continuar comprando</p>
 
                             </div>
+                            
                         </div>
                     @endauth
                 </section>
@@ -169,16 +216,19 @@
             -varificar como se estan menejando ajax con los return 
             -hacer lo de eliminar cuando sea menor a cero 
             -validar las opciones del select con ajax
-            
+            -si el stock de un producto llega a cero no agregarlo , mensaje producto sin stock 
+
+            -ejemplo si se vende 5 , el stock cambia y si  un usuario ya tenia mas de la cuenta igualarle el stock nuevo 
+             en el select y actualizar la cantidad de ese carrito y de usuario , hacerlo cuando le de pagar o generar factura ]
+             asi toma todos los cantidades de todos los asuarios y las actualiza  
             --}}
 
         
 
         <script>
-            
+          
 
             function mostrarBoton(input) {
-                console.log("Click sobre mostrar botón");
 
                 // Encuentra el botón hermano del input actual
                 let btnActualizar = input.nextElementSibling;
@@ -191,9 +241,9 @@
                 }
             }
 
-            function verificarCantidad(cantidadAsociada) {
+            function verificarCantidad(cantidadAsociada,stockProducto) {
 
-                let resultado = (function(cantidadAsociada) {//función IIFE para encapsular
+                let resultado = (function(cantidadAsociada,stockProducto) {//función IIFE para encapsular
 
                     // Expresión regular que coincide con cualquier cosa que no sea un número
                     var expresionRegular = /[^0-9]/;
@@ -206,27 +256,36 @@
                     if(!(test)){//false
 
                         var cantidad = parseInt(cantidadAsociada, 10);
+                        if(stockProducto > 0){
 
-                        if (!isNaN(cantidad) && cantidad > 0) {
-                            console.error("Cantidad válida mayor a cero");
-                            bandera = true;
-                        } else {
-                            console.error("Cantidad no válida o menor/igual a cero");
-                            
+                            if (cantidad <= stockProducto) {
+
+                                if (!isNaN(cantidad) && cantidad > 0) {
+                                    console.error("Cantidad válida mayor a cero");
+                                    bandera = true;
+                                } else {
+                                    console.error("Cantidad no válida o menor/igual a cero");
+                                    
+                                }
+
+                            }else{
+
+                                bandera = null;
+                                console.log("cantidad : "+cantidad+" stock :"+stockProducto);
+                            }
+                        }else{
+                            window.location.reload();
                         }
                     }
                     
-                    console.log("Valor convertido: " + cantidad);
+                    console.log("Valor convertido: " + cantidad +"bandera: "+bandera);
 
                     return bandera;
 
-                })(cantidadAsociada);
+                })(cantidadAsociada,stockProducto);
 
                 return resultado;
             }
-
-
-
 
             //eventos
 
@@ -244,18 +303,39 @@
                     var idCarrito = valores[0];
                     var idProducto = valores[1];
                     var stockProducto = valores[2];
+
+                    //funcion para borrar los espacios que venga
+                    //verificar variables cuando son vacias 
                     
                     console.log(" producto id :"+idProducto);
                     console.log(" carrito id :"+idCarrito);
                     console.log(" stock Producto: "+stockProducto);
-                 
-                    let bandera =  verificarCantidad(cantidadAsociada);
-                    console.log("bandera : "+bandera);
+                    console.log(" cantidadAsociada : "+cantidadAsociada);
+                    
+                    if (idCarrito !== null && idProducto !== null &&stockProducto !== null && cantidadAsociada !== undefined && cantidadAsociada.trim() !== '') { // Verifica que no sea una cadena vacía después de eliminar espacios en blanco
 
-                    if(bandera){
-                        actualizarDatos(cantidadAsociada,idCarrito,idProducto,inputAsociado);
+                      
+                        
+                        let bandera =  verificarCantidad(cantidadAsociada,stockProducto);
+                        console.log("bandera : "+bandera);
+                        
+                        if(bandera){
+                            
+                            actualizarDatos(cantidadAsociada,idCarrito,idProducto,inputAsociado,true);
+                        
+                        }else if(bandera === false){
+                            inputAsociado.value = 1;
+                        }else{
+                            
+                            alert("stock disponible : "+stockProducto);
+                            inputAsociado.value = stockProducto;
+                        
+                        } 
+
                     }else{
+
                         inputAsociado.value = 1;
+
                     }
                 });
             });
@@ -265,42 +345,145 @@
 
             // Función para ocultar y mostrar elementos
             function ocultarYMotrar() {
+                console.log("select");
                 let selects = document.querySelectorAll("select.miSelect");
                 let inputs = document.querySelectorAll("input.inputCantidadd");
 
                 selects.forEach(function(select, index) {
+                    let hasClicked = false; // Variable para rastrear si ya se hizo clic en el select
+
                     select.addEventListener("click", function(event) {
+                        event.stopPropagation();
+                        //guardar las opciones dentro de un array y pasarlo  
                         let opcionSeleccionada = select.options[select.selectedIndex].value;
 
-                        if (opcionSeleccionada == "+10") {
-                            console.log("Se hizo clic en un elemento select " + opcionSeleccionada);
-                            select.style.display = "none";
+                        let array = opcionSeleccionada.split(',');// array de valores la coma es el delimitador de uno y otro valor
+                        
+                        
+                        let opcionSelect = array[0];
 
-                            // Obtén el input asociado al select clicado
-                            let inputAsociado = inputs[index];
-                            inputAsociado.type = "text";
 
-                            let btnActualizar = inputAsociado.nextElementSibling;
-                            btnActualizar.style.display = "block";
+                        let opcionesSelecionadas  = [];
+                        console.log("esto es la opcion selecionadaaaaaaaaaaaaaaaaa : "+opcionSelect);
+                        opcionesSelecionadas.push(opcionSelect);
 
-                            // Elimina todos los manejadores de eventos anteriores
-                            // $(btnActualizar).off('click');
+                        ccc  = false;
 
+                        if (opcionesSelecionadas.length >= 2) {
+                            var penultimoValor = opcionesSelecionadas[opcionesSelecionadas.length - 2];
+                            console.log(penultimoValor+" : este es el penultimo valorrrrrrrrrrrrrr");
+                            ccc = true;
+
+                        } else {
+                        console.log("El array no tiene suficientes elementos para obtener el penúltimo valor.");
+                        }
+
+                        if (!hasClicked) {
+
+                            console.log("opcion selecionada : "+opcionSeleccionada);
+                            if(ccc){
+
+                                cargarSelect(select, opcionSeleccionada, inputs, selects,index,penultimoValor);
+                            }else{
+
+                                cargarSelect(select, opcionSeleccionada, inputs, selects,index,0);
+
+                            }
+                            
+                            
+
+                            hasClicked = true; // Marcar que ya se hizo clic
                         }
                     });
                 });
-            }
+
+                    
+                }
+
+
+                function cargarSelect(select,opcionSeleccionada,inputs,selects,index,opcionAnterior){
+
+                    if (opcionSeleccionada == "+10") {
+                        console.log("Se hizo clic en un elemento select " + opcionSeleccionada);
+                        select.style.display = "none";
+
+                        // Obtén el input asociado al select clikeado
+                        let inputAsociado = inputs[index];
+                        inputAsociado.type = "text";
+
+                        //test
+                        // inputAsociado.value = opcionSeleccionada;
+
+
+                        let btnActualizar = inputAsociado.nextElementSibling;
+                        btnActualizar.style.display = "block";
+
+                        // Elimina todos los manejadores de eventos anteriores
+                        // $(btnActualizar).off('click');
+
+                    }else{
+
+                        let valores = opcionSeleccionada.split(',');// array de valores la coma es el delimitador de uno y otro valor
+                        
+                        console.log("valores : "+valores);
+                        let opcionSelect = valores[0];
+                        let stockProducto = valores[1];
+                        let idCarrito = valores[2];
+                        let idProducto = valores[3];
 
 
 
+                        if (idCarrito !== null && idProducto !== null &&stockProducto !== null && opcionSelect !== undefined && opcionSelect.trim() !== '') {
+                            
+                            console.log("stock: "+stockProducto);
+                            console.log("opcionSelect : "+opcionSelect);
+                            console.log("idCarrito : "+idCarrito);
+                            console.log("idProducto : "+idProducto);
+
+                            let bandera =  verificarCantidad(opcionSelect,stockProducto);
+                            
+                            if(bandera){
+                                
+                                actualizarDatos(opcionSelect,idCarrito,idProducto,0,false);
+                            
+                            }else if(bandera === false){
+                                opcionSeleccionada.value = 1;
+                                console.log("opcion con el valor de 1");
+                            }else{
+                                
+                                console.log("llegue null");
+                                alert("stock disponible : "+stockProducto);
+                                actualizarDatos(stockProducto,idCarrito,idProducto,0,false);
+                                //Recorre las opciones y selecciona la que coincide con el nuevo valor
+                                for (var i = 0; i < select.options.length; i++) {
+                                    
+                                    let valores = select.options[i].value.split(',');// array de valores la coma es el delimitador de uno y otro valor      
+                                    let opcion = valores[0];
+
+                                    if (opcion == stockProducto) {
+                                        
+                                        select.options[i].selected = true;
+                                        break;
+                                    }
+                                }
+
+                            } 
+
+                        }
+
+                    }
+
+                }
 
 
-            function actualizarDatos(cantidad, idCarrito,idProducto,inputAsociado) {
+            function actualizarDatos(cantidad, idCarrito,idProducto,inputAsociado,decision) {
 
                 // xhr.setRequestHeader("X-CSRF-TOKEN", '' + {{ csrf_token() }} + '');
 
                 console.log("cantidad p " + cantidad + "  id=" + idCarrito+" idProducto : "+idProducto);
-
+                if(decision){
+                    inputAsociado.nextElementSibling.disabled = true;
+                }
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', '/actualizarCarrito?cantidad=' + cantidad.toString() + "&idCarrito=" +idCarrito+ "&idProducto=" +idProducto, true);
                 xhr.setRequestHeader('Content-Type', 'application/json');
@@ -308,9 +491,12 @@
                 xhr.onreadystatechange = function() {
                     
                     if (xhr.readyState === 4 && xhr.status === 200) {
-
+                        
                         var respuesta = JSON.parse(xhr.responseText);
+                        if(decision){
 
+                            inputAsociado.nextElementSibling.disabled = false;
+                        }
                         console.log("respuesta aaa  : "+respuesta);                        
                         var respuestaString = JSON.stringify(respuesta);;
 
@@ -319,7 +505,11 @@
                         if(respuesta["stock  disponible"] != null){
 
                             let valor = respuesta["stock  disponible"];
-                            inputAsociado.value = valor;
+                            if(decision){
+
+                                inputAsociado.value = valor;
+                        
+                            }
                         }
                       
                     }
