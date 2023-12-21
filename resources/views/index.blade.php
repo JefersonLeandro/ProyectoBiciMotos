@@ -100,30 +100,34 @@
                             <p class="mt-1 text-lg font-medium text-gray-900">stock: {{$producto->stockProducto}}</p>
                         </div>
                         
-                        @auth
+                       
 
                             @if ($stockProducto > 0)
-                                <form class=" flex justify-between" action="{{route("agregarCarrito",$producto->idProducto)}}" method="POST">
-                                    @csrf
-                                    <button>Agregar 🛒</button>
-                                    <button type="button">Comprar</button>
-                                </form>
-                            @else
+                                @auth
+                                    <form class=" flex justify-between" action="{{route("agregarCarrito",$producto->idProducto)}}" method="POST">
+                                        @csrf
+                                        <button>Agregar 🛒</button>
+                                        <button type="button">Comprar</button>
+                                    </form>
+                                
+                                @else  
+                                
+                                    <div>
+                                        <a href="{{route("login")}}" class=" flex justify-between" >
+                                        
+                                            <button>Agregar 🛒</button>
+                                            <button type="button">Comprar</button>
+                                        </a>
+                                    </div>
 
-                                <p class="text-red-400">Producto sin stock</p> 
+                                @endauth
+
+                            @else
+                                <p class="text-red-400">Producto sin stock</p>
 
                             @endif
-                            
-
-                        @else
-                            <div>
-                                <a href="{{route("login")}}" class=" flex justify-between" >
-                                
-                                    <button>Agregar 🛒</button>
-                                    <button type="button">Comprar</button>
-                                </a>
-                            </div>
-                        @endauth 
+                        
+                        
                     </div>
                 @endforeach
                 @endif

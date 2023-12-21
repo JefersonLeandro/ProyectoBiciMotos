@@ -1,6 +1,8 @@
 <x-layouts.plantillaPrincipal title="carrito" meta-description=" esta es la descripcion del carrito">
-    {{-- <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script> --}}
-
+  
+    @php
+        $subtotalFinal = 0 ;
+    @endphp
 
     <main class="w-full  " style="height: 100vh">
         <div class="flex flex-col justify-center items-center ">
@@ -11,26 +13,10 @@
                 </div>
                 <div class="w-52 flex items-center justify-start">
                     @auth
-                        <span>Cantidad({{ $tamanoCarrito }}),cambiar, sumar es la cantidad de todo</span>
+                        <span id="cantidadCarrito">Cantidad({{ $acumuladorCantidad }})</span>
                     @else
                         <span>Cantidad(0)</span>
                     @endauth
-
-                    {{-- @if (isset($productosAgotados))
-                        <script>
-                            // Convertir el array de PHP a una cadena JSON
-                            let productosAgotados = @json($productosAgotados);
-                            // Guardar el array completo en localStorage
-                            window.localStorage.setItem('productosAgotados', JSON.stringify(productosAgotados));
-                    
-                            // Puedes acceder a los elementos del array en JavaScript
-                            productosAgotados.forEach(element => {
-                                console.log(element.nombreProducto, element.precioProducto);
-                            });
-                        </script>
-                    @endif --}}
-                
-                
 
                 </div>
                 <div class="flex items-center justify-start list-none  gap-5 w-2/5 ">
@@ -61,8 +47,27 @@
 
                 <section class=" w-3/5 p-5 flex flex-col gap-4 ">
                     @auth
+                    @php
+                         $subtotalFinal = 0;
+                        
+                    @endphp
                         @forelse ($informacionCarrito as $carrito)
+
+                            @php
+                                $idCarrito = $carrito->idCarritoCompra;
+                                $cantidad = $carrito->cantidadCarrito;
+                                $idProducto = $carrito->idProducto;
+                                $stockProducto = $carrito->stockProducto;
+                                $precioProducto = $carrito->precioProducto;
+                                
+                                //subtotal base de cada producto 
+                                $subtotalIndividual = $cantidad * $precioProducto; 
+                                //subtotal base para todos los productos
+                                $subtotalFinal +=  $subtotalIndividual; 
+                                
+                            @endphp
                             <div class="p-3 h-36 rounded flex border-solid border-black border">
+                                
                                 <div class=" w-1/5  ">
                                     <img src="{{ asset('imagenes/vino.jpg') }}"
                                         alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
@@ -70,22 +75,15 @@
                                 </div>
                                 <div class=" w-3/5 pl-3 pr-3">
                                     <div class="w-full h-3/5 ">
-
-                                        <p>{{ $carrito->nombreProducto }}</p>
+                                            <p>{{ $carrito->nombreProducto }}</p>
                                     </div>
                                     <div class="w-full h-2/5  flex justify-between pr-9">
-                                        <strong>stock en linea :({{ $carrito->stockProducto }})</strong>
-                                        {{-- <p>id : {{$carrito->idCarritoCompra}}</p> --}}
+                                        <div class="flex items-center">
+                                            
+                                            <strong>stock en linea :({{ $carrito->stockProducto }})</strong>
+                                        </div>
                                         
                                         <div class="flex items-center w-44">
-
-                                            @php
-                                                $idCarrito = $carrito->idCarritoCompra;
-                                                $cantidad = $carrito->cantidadCarrito;
-                                                $idProducto = $carrito->idProducto;
-                                                $stockProducto = $carrito->stockProducto;
-                                            @endphp
-                                            {{-- si la cantidad es mayor a 10 poner un input de con la cantidad en vez de mostrar el select --}}
                                             <div class="flex gap-3">
                                                 @if ($cantidad >= 10)
                                                     <input type="text" value="{{ $cantidad }}" maxlength="3"
@@ -106,7 +104,6 @@
                                                         @endfor
                                                         <option value="+10">+10</option>
                                                     </select>
-
                                                     <input type="hidden" autofocus value="{{ $cantidad }}"
                                                         maxlength="3" autocomplete="off"
                                                         class="inputCantidadd border border-black w-12 p-1 box-border h-6" >
@@ -115,14 +112,12 @@
                                                 <button value="{{$idCarrito.','.$idProducto.','.$stockProducto}}"  class="btnActualizar border border-black">Actualizar</button>
                                                 
                                             </div>
-
-
                                         </div>
                                     </div>
                                 </div>
                                 <div class="w-1/5  ">
                                     <div class=" h-14 p-3 flex items-center justify-center text-lg">
-                                        <strong>${{ $carrito->precioProducto }}$</strong>
+                                        <strong class="subtotalIndividual">{{ $precioProducto }}</strong>
                                     </div>
                                     <form action="{{ route('eliminarCarrito', $carrito->idCarritoCompra) }} "
                                         method="POST">
@@ -147,8 +142,6 @@
 
                 </section>
 
-
-
                 <section class=" w-2/5 flex justify-center">
                     @auth
                         <div class=" w-8/12 flex flex-col items-center">
@@ -166,57 +159,26 @@
                             @endif 
                             <div class="p-6 flex flex-col gap-5 w-auto" style="height:20%">
                                 <div class="border border-black h-14 flex items-center w-56 pl-2 rounded text-lg gap-2">
-                                    <strong>Subtotal:</strong>
-                                    <p>400.000.000</p>
+                                    <strong >Subtotal:</strong>
+                                    <p id="totalFinal" >{{$subtotalFinal}}</p>
                                 </div>
-                                {{-- <div class="border border-black h-14 flex items-center pl-2 rounded text-lg gap-2">
-                                    <strong>Iva - 19% :</strong>
-                                    <p>76.000</p>
-                                </div>
-                                <div class="border border-black h-14 flex items-center pl-2 rounded text-lg gap-2">
-                                    <strong> Total :</strong>
-                                    476.000
-                                </div> --}}
-                                
-                                {{-- <input type="text" maxlength="3" class=" cuadroT border border-solid border-black">
-                                <button onclick="verificacion()">actulizar</button> --}}
-                                {{-- <script>//mostrarlos en una solo vista sin tener que recargar y si recarga que se borren solos y ya.
-                    
-                                    // Recuperar el array almacenado en localStorage
-                                    var arrayProductos = JSON.parse(window.localStorage.getItem('productosAgotados'));
-
-                                    // Iterar sobre los productos y agregarlos a la lista
-                                    var listaProductos = document.getElementById('listaProductosAgotados');
-
-                                    arrayProductos.forEach(element => {
-                                        var nuevoElemento = document.createElement('li');
-                                        nuevoElemento.textContent = '- ' + element.nombreProducto + ' ' + element.precioProducto;
-                                        listaProductos.appendChild(nuevoElemento);
-                                    });
-                                </script> --}}
-
-
-                               
-
                             </div>
-                            <div class=" flex items-center flex-col gap-3" style="height: 20%">
-                                <button class="border border-black w-32 h-10 ">Generar factura</button>
+                            <div class=" flex items-center  flex-col gap-3" style="height: 20%">
+                                
+                                <a class=" flex  items-center justify-center border border-black w-32 h-10 " href="{{route("factura")}}"  >Generar factura</a>
                                 <a href="{{ route('index') }}" class="underline">Continuar comprando</p>
 
                             </div>
-                            
                         </div>
                     @endauth
                 </section>
             </div>
         </div>
         {{-- 
-            -hacer la verificacion del stock de manera local
-            -hacer la verificacion para datos nulos en la vista del index
-            -varificar como se estan menejando ajax con los return 
-            -hacer lo de eliminar cuando sea menor a cero 
+
+         
             -validar las opciones del select con ajax
-            -si el stock de un producto llega a cero no agregarlo , mensaje producto sin stock 
+            - quitar la variable que trae el tamano del carrito ;
 
             -ejemplo si se vende 5 , el stock cambia y si  un usuario ya tenia mas de la cuenta igualarle el stock nuevo 
              en el select y actualizar la cantidad de ese carrito y de usuario , hacerlo cuando le de pagar o generar factura ]
@@ -314,11 +276,11 @@
                     
                     if (idCarrito !== null && idProducto !== null &&stockProducto !== null && cantidadAsociada !== undefined && cantidadAsociada.trim() !== '') { // Verifica que no sea una cadena vacía después de eliminar espacios en blanco
 
-                      
                         
                         let bandera =  verificarCantidad(cantidadAsociada,stockProducto);
-                        console.log("bandera : "+bandera);
                         
+                        console.log("bandera : "+bandera);
+                       
                         if(bandera){
                             
                             actualizarDatos(cantidadAsociada,idCarrito,idProducto,inputAsociado,true);
@@ -341,67 +303,79 @@
             });
 
 
-
-
+          
             // Función para ocultar y mostrar elementos
             function ocultarYMotrar() {
-                console.log("select");
+            
                 let selects = document.querySelectorAll("select.miSelect");
                 let inputs = document.querySelectorAll("input.inputCantidadd");
+                let penultimoValor = 0;
+                var  validarOpcion = false;
 
                 selects.forEach(function(select, index) {
                     let hasClicked = false; // Variable para rastrear si ya se hizo clic en el select
+                    // var penultimoValor;
+                    let arrayOpciones  = [];
+                
 
                     select.addEventListener("click", function(event) {
                         event.stopPropagation();
                         //guardar las opciones dentro de un array y pasarlo  
                         let opcionSeleccionada = select.options[select.selectedIndex].value;
-
                         let array = opcionSeleccionada.split(',');// array de valores la coma es el delimitador de uno y otro valor
-                        
-                        
                         let opcionSelect = array[0];
 
+                        console.log(" ------- la opcion es : "+opcionSelect);
+                        arrayOpciones.push(opcionSelect);
+                        
+                        if (arrayOpciones.length >= 2) {
 
-                        let opcionesSelecionadas  = [];
-                        console.log("esto es la opcion selecionadaaaaaaaaaaaaaaaaa : "+opcionSelect);
-                        opcionesSelecionadas.push(opcionSelect);
-
-                        ccc  = false;
-
-                        if (opcionesSelecionadas.length >= 2) {
-                            var penultimoValor = opcionesSelecionadas[opcionesSelecionadas.length - 2];
+                            penultimoValor = arrayOpciones[arrayOpciones.length - 2];
                             console.log(penultimoValor+" : este es el penultimo valorrrrrrrrrrrrrr");
-                            ccc = true;
-
-                        } else {
-                        console.log("El array no tiene suficientes elementos para obtener el penúltimo valor.");
+                            validarOpcion = true;
                         }
-
+                        
+                        // if (!hasClicked || validarOpcion) {#################### como ponerle el penultimo valor 
                         if (!hasClicked) {
 
+                            console.log("click ****");
                             console.log("opcion selecionada : "+opcionSeleccionada);
-                            if(ccc){
+                            
+                            console.log("@@@@@@ : "+penultimoValor);
 
+                            nnn =  arrayOpciones[arrayOpciones.length - 2];
+
+                            console.log("este es el n antes : "+nnn);
+                           
+                            
+                            if(validarOpcion){
+                                
                                 cargarSelect(select, opcionSeleccionada, inputs, selects,index,penultimoValor);
+                                console.log("$$$$$$ la opcion del penultimo valor es : "+penultimoValor);
+                                validarOpcion = false;
+                                
                             }else{
-
+                                
                                 cargarSelect(select, opcionSeleccionada, inputs, selects,index,0);
-
+                                console.log("$$$$opcion 0 ");
                             }
                             
+                            hasClicked = true; // Marcar que ya se hizo click para evitar repiticiones
                             
-
-                            hasClicked = true; // Marcar que ya se hizo clic
                         }
+
+
+
                     });
+
+                
                 });
 
                     
                 }
 
 
-                function cargarSelect(select,opcionSeleccionada,inputs,selects,index,opcionAnterior){
+                function cargarSelect(select,opcionSeleccionada,inputs,selects,index,penultimoValor){
 
                     if (opcionSeleccionada == "+10") {
                         console.log("Se hizo clic en un elemento select " + opcionSeleccionada);
@@ -411,16 +385,16 @@
                         let inputAsociado = inputs[index];
                         inputAsociado.type = "text";
 
-                        //test
-                        // inputAsociado.value = opcionSeleccionada;
+                        if(penultimoValor !== 0){
 
+                            inputAsociado.value = penultimoValor;
+                            console.log(" soy diferente a cero : "+penultimoValor);
+                        }
 
                         let btnActualizar = inputAsociado.nextElementSibling;
                         btnActualizar.style.display = "block";
 
-                        // Elimina todos los manejadores de eventos anteriores
-                        // $(btnActualizar).off('click');
-
+                      
                     }else{
 
                         let valores = opcionSeleccionada.split(',');// array de valores la coma es el delimitador de uno y otro valor
@@ -500,18 +474,38 @@
                         console.log("respuesta aaa  : "+respuesta);                        
                         var respuestaString = JSON.stringify(respuesta);;
 
-                        console.log("respuesta:"+respuestaString);
+                        console.log("respuesta: "+respuestaString);
 
                         if(respuesta["stock  disponible"] != null){
 
                             let valor = respuesta["stock  disponible"];
-                            if(decision){
 
+                            console.log(respuesta["stock  disponible"]);
+                            if(decision){
                                 inputAsociado.value = valor;
-                        
+                                
                             }
                         }
-                      
+
+                        if(respuesta["total"] != null){
+
+                            console.log("total : "+respuesta["total"]);
+                           
+                            let totalYcantidad = respuesta["total"];
+                            
+                            let valores = totalYcantidad.split(',');// array de valores la coma es el delimitador de uno y otro valor
+                        
+                            console.log("valores : "+valores);
+                            let total = valores[0];
+                            let cantidadCarrito = valores[1];
+
+                            let TotalFinal = document.getElementById("totalFinal").innerHTML = total; 
+                            let spanCantidad = document.getElementById("cantidadCarrito").innerHTML = "cantidad("+cantidadCarrito+")"; 
+                            // strongTotalFinal;
+                            console.log("el total final es   : "+total);
+                        }
+                        
+                        
                     }
                 };
 

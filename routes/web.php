@@ -4,6 +4,7 @@ use App\Http\Controllers\auth\controladorRegistrarUsuario;
 use App\Http\Controllers\auth\controladorAutenticarUsuario;
 use App\Http\Controllers\controladorProducto;
 use App\Http\Controllers\controladorCarrito;
+use App\Http\Controllers\controladorFactura;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,6 +34,7 @@ use Illuminate\Support\Facades\Route;
     Route::view("/registro","auth.registro")->name("registro");
     Route::view("/login","auth.login")->name("login");
     Route::get("/carrito",[controladorCarrito::class,'index'])->name("carrito");
+    Route::get("/factura",[controladorFactura::class,'index'])->name("factura");
     
     
     //Enviar y cargar un metodo
@@ -42,6 +44,7 @@ use Illuminate\Support\Facades\Route;
     Route::post("/agregarCarrito/{idProducto}",[controladorCarrito::class,'store'])->name("agregarCarrito");
     Route::post("/eliminarCarrito/{idCarrito}",[controladorCarrito::class,'eliminarUnCarrito'])->name("eliminarCarrito");
     Route::get("/actualizarCarrito",[controladorCarrito::class,'actualizarCarrito'])->name("actualizarCarrito");
+    // Route::get("/Factura",[controladorFactura::class,'insertarF'])->name("actualizarCarrito");
     
 
 

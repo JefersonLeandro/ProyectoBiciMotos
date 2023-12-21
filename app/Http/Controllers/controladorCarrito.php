@@ -18,13 +18,16 @@ class controladorCarrito extends Controller
         // SELECT carritocompras.idCarritoCompra , productos.idProducto, productos.nombreProducto, productos.precioProducto ,productos.stockProducto FROM productos 
         // INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto WHERE carritocompras.idUsuario=1;
 
+        // 1. la que indexa los productos que liste por primera vista el subtotal base .
+        // 2. cuando se hagan actulizaciones se reciben el id y la cantidad de ese producto para volver a mandar el subtotal actulizado.
+
         if (Auth::user()) {
 
             $idUsuario = Auth::user()->idUsuario;
 
             //tamanoCarrito
-            $controladorProducto = new controladorProducto();
-            $tamanoCarrito = $controladorProducto->obtenerTamanoCarrito();
+            // $controladorProducto = new controladorProducto();
+            // $tamanoCarrito = $controladorProducto->obtenerTamanoCarrito();
 
 
             //innerJoin para la informacion , falta agregar logica para la --IMAGEN--
@@ -72,11 +75,14 @@ class controladorCarrito extends Controller
                 ->select('carritoCompras.idCarritoCompra', 'productos.idProducto','productos.nombreProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto', 'productos.stockProducto')
                 ->get();
 
-
-                return view("carritoCompras", ['tamanoCarrito' => $tamanoCarrito, 'informacionCarrito' => $informacionCarritoActulizada,'productosAgotados' =>$productosAgotados]);
+                $acumulador  = $this->cantidadCarritos($informacionCarritoActulizada);
+              
+                // return $subtotal =  $this->subtotalCarrito($informacionCarritoActulizada);
+                return view("carritoCompras", ['acumuladorCantidad' => $acumulador, 'informacionCarrito' => $informacionCarritoActulizada,'productosAgotados' =>$productosAgotados]);
             }else{
-
-                return view("carritoCompras", ['tamanoCarrito' => $tamanoCarrito, 'informacionCarrito' => $informacionCarrito]);
+                $acumulador  = $this->cantidadCarritos($informacionCarrito);
+                // return $subtotal =  $this->subtotalCarrito($informacionCarrito);
+                return view("carritoCompras", ['acumuladorCantidad' => $acumulador, 'informacionCarrito' => $informacionCarrito]);
 
             }
 
@@ -85,6 +91,22 @@ class controladorCarrito extends Controller
         return view("carritoCompras");
 
     }
+
+    //subFunciones de la funcion index, en si funciones mas pequeñas de esa funcion;
+    public function cantidadCarritos($informacionCarrito){
+
+        $acumulador = 0;
+        foreach ($informacionCarrito as $unCarrito) {
+            $cantidad = $unCarrito->cantidadCarrito;
+            $acumulador = $acumulador+$cantidad; 
+        }
+
+        return $acumulador;
+
+    }
+    
+    //finalSubFunciones
+
     public function store(Request $request)
     {
 
@@ -157,15 +179,14 @@ class controladorCarrito extends Controller
 
     public function actualizarCantidadCarrito(Request $request, $idUsuario, $idProducto,$decision)
     {
-
-        // SELECT carritocompras.idCarritoCompra, carritocompras.idProducto, carritocompras.idUsuario , carritocompras.cantidadCarrito, productos.stockProducto FROM productos
-        // INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto WHERE carritocompras.idUsuario =1 and productos.idProducto=2;
+        // SELECT carritocompras.idCarritoCompra, carritocompras.idProducto, carritocompras.idUsuario , carritocompras.cantidadCarrito, productos.stockProducto , productos.precioProducto
+        //  FROM productos INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto WHERE carritocompras.idUsuario =2 and productos.idProducto=2;
 
         $carritoEncontrado = DB::table('productos') //encontrar un carrito especificamente con el stock del producto
             ->join('carritocompras', 'productos.idProducto', '=', 'carritocompras.idProducto')
             ->where('carritocompras.idUsuario', '=', $idUsuario)
             ->where('carritocompras.idProducto', '=', $idProducto)
-            ->select('carritocompras.idCarritoCompra', 'carritocompras.idProducto', 'carritocompras.idUsuario', 'carritocompras.cantidadCarrito', 'productos.stockProducto')
+            ->select('carritocompras.idCarritoCompra', 'carritocompras.idProducto', 'carritocompras.idUsuario', 'carritocompras.cantidadCarrito', 'productos.stockProducto', 'productos.precioProducto')
             ->first();
         
         $stockProducto = $carritoEncontrado->stockProducto; //12
@@ -187,16 +208,51 @@ class controladorCarrito extends Controller
                 ->where('idCarritoCompra', $idCarritoEncontrado)
                 ->update(['cantidadCarrito' => $cantidadCarrito]); //se actualiza la cantidad
 
+            if(!$decision){
+                
+                $totalYcantidad = $this->subtotalCarrito($idUsuario); //para ajax
+                return response()->json(['total' => $totalYcantidad]);//retonar dos valores (total, cantidadActualizada);
+            }
         } else {
             //no se actualiza la cantidad y se manda un mensaje producto fuera de stock 
 
             if($decision){
                 return back()->with('estado', 'producto fuera de stock');//para la vista index
             }else{
-                return $stockProducto;//para ajax
+
+                return response()->json(['stock  disponible' => $stockProducto]);
+                // return $stockProducto;//para ajax
             }
         }
 
+    }
+
+    public function subtotalCarrito($idUsuario){
+
+        // SELECT carritocompras.idCarritoCompra , productos.idProducto, productos.precioProducto ,carritocompras.cantidadCarrito FROM productos
+        // INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto WHERE carritocompras.idUsuario=1;
+
+        $informacionSubtotal = DB::table('productos')
+        ->join('carritoCompras', 'productos.idProducto', '=', 'carritoCompras.idProducto')
+        ->where('carritoCompras.idUsuario', '=', $idUsuario)
+        ->select('carritoCompras.idCarritoCompra', 'productos.idProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto')
+        ->get();
+
+
+
+        $total = 0;
+        $acumuladorCantidad = 0;
+        foreach ($informacionSubtotal as  $unCarrito) {//calcular el total de todos los productos de un usuario
+
+            $precio = $unCarrito->precioProducto;
+            $cantidad = $unCarrito->cantidadCarrito;
+            $subtotal = $precio * $cantidad; 
+            $total += $subtotal;
+            $acumuladorCantidad +=$cantidad; 
+        }
+    
+        return $total.",".$acumuladorCantidad;
+        // return $informacionCarrito->toArray();
     }
 
     public function insertarCarrito(Request $request)
@@ -235,10 +291,7 @@ class controladorCarrito extends Controller
             if($verificacion){
 
                 $idUsuario = Auth::user()->idUsuario;
-                $stockDisponible =  $this->actualizarCantidadCarrito($request, $idUsuario, $idProducto,false);
-
-                return response()->json(['stock  disponible' => $stockDisponible]);
-
+                return  $stockDisponibleOSubtotal =  $this->actualizarCantidadCarrito($request, $idUsuario, $idProducto,false);//puede retornar una respuesta ajax tanto como un stock disponible como un subtotal. z
             }
         }  
         
