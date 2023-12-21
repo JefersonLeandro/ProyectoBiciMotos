@@ -78,11 +78,12 @@
                                             <p>{{ $carrito->nombreProducto }}</p>
                                     </div>
                                     <div class="w-full h-2/5  flex justify-between pr-9">
-                                        <div class="flex items-center">
+                                        @if ($stockProducto <=15)
+                                            <div class="flex items-center">
+                                                <strong class="text-red-500">stock en linea :({{ $stockProducto}})</strong>
+                                            </div>
+                                        @endif
                                             
-                                            <strong>stock en linea :({{ $carrito->stockProducto }})</strong>
-                                        </div>
-                                        
                                         <div class="flex items-center w-44">
                                             <div class="flex gap-3">
                                                 @if ($cantidad >= 10)
@@ -164,8 +165,10 @@
                                 </div>
                             </div>
                             <div class=" flex items-center  flex-col gap-3" style="height: 20%">
-                                
+                                @if ($subtotalFinal>0)
+                                    
                                 <a class=" flex  items-center justify-center border border-black w-32 h-10 " href="{{route("factura")}}"  >Generar factura</a>
+                                @endif
                                 <a href="{{ route('index') }}" class="underline">Continuar comprando</p>
 
                             </div>
@@ -174,18 +177,6 @@
                 </section>
             </div>
         </div>
-        {{-- 
-
-         
-            -validar las opciones del select con ajax
-            - quitar la variable que trae el tamano del carrito ;
-
-            -ejemplo si se vende 5 , el stock cambia y si  un usuario ya tenia mas de la cuenta igualarle el stock nuevo 
-             en el select y actualizar la cantidad de ese carrito y de usuario , hacerlo cuando le de pagar o generar factura ]
-             asi toma todos los cantidades de todos los asuarios y las actualiza  
-            --}}
-
-        
 
         <script>
           
@@ -223,24 +214,17 @@
                             if (cantidad <= stockProducto) {
 
                                 if (!isNaN(cantidad) && cantidad > 0) {
-                                    console.error("Cantidad válida mayor a cero");
                                     bandera = true;
-                                } else {
-                                    console.error("Cantidad no válida o menor/igual a cero");
-                                    
                                 }
 
                             }else{
 
                                 bandera = null;
-                                console.log("cantidad : "+cantidad+" stock :"+stockProducto);
                             }
                         }else{
                             window.location.reload();
                         }
                     }
-                    
-                    console.log("Valor convertido: " + cantidad +"bandera: "+bandera);
 
                     return bandera;
 
@@ -268,11 +252,7 @@
 
                     //funcion para borrar los espacios que venga
                     //verificar variables cuando son vacias 
-                    
-                    console.log(" producto id :"+idProducto);
-                    console.log(" carrito id :"+idCarrito);
-                    console.log(" stock Producto: "+stockProducto);
-                    console.log(" cantidadAsociada : "+cantidadAsociada);
+                   
                     
                     if (idCarrito !== null && idProducto !== null &&stockProducto !== null && cantidadAsociada !== undefined && cantidadAsociada.trim() !== '') { // Verifica que no sea una cadena vacía después de eliminar espacios en blanco
 
@@ -309,87 +289,33 @@
             
                 let selects = document.querySelectorAll("select.miSelect");
                 let inputs = document.querySelectorAll("input.inputCantidadd");
-                let penultimoValor = 0;
-                var  validarOpcion = false;
 
                 selects.forEach(function(select, index) {
                     let hasClicked = false; // Variable para rastrear si ya se hizo clic en el select
-                    // var penultimoValor;
-                    let arrayOpciones  = [];
-                
 
                     select.addEventListener("click", function(event) {
                         event.stopPropagation();
-                        //guardar las opciones dentro de un array y pasarlo  
+                   
                         let opcionSeleccionada = select.options[select.selectedIndex].value;
-                        let array = opcionSeleccionada.split(',');// array de valores la coma es el delimitador de uno y otro valor
-                        let opcionSelect = array[0];
-
-                        console.log(" ------- la opcion es : "+opcionSelect);
-                        arrayOpciones.push(opcionSelect);
-                        
-                        if (arrayOpciones.length >= 2) {
-
-                            penultimoValor = arrayOpciones[arrayOpciones.length - 2];
-                            console.log(penultimoValor+" : este es el penultimo valorrrrrrrrrrrrrr");
-                            validarOpcion = true;
-                        }
-                        
-                        // if (!hasClicked || validarOpcion) {#################### como ponerle el penultimo valor 
+                       
                         if (!hasClicked) {
-
-                            console.log("click ****");
-                            console.log("opcion selecionada : "+opcionSeleccionada);
                             
-                            console.log("@@@@@@ : "+penultimoValor);
-
-                            nnn =  arrayOpciones[arrayOpciones.length - 2];
-
-                            console.log("este es el n antes : "+nnn);
-                           
-                            
-                            if(validarOpcion){
-                                
-                                cargarSelect(select, opcionSeleccionada, inputs, selects,index,penultimoValor);
-                                console.log("$$$$$$ la opcion del penultimo valor es : "+penultimoValor);
-                                validarOpcion = false;
-                                
-                            }else{
-                                
-                                cargarSelect(select, opcionSeleccionada, inputs, selects,index,0);
-                                console.log("$$$$opcion 0 ");
-                            }
-                            
+                            cargarSelect(select, opcionSeleccionada, inputs, selects,index);
                             hasClicked = true; // Marcar que ya se hizo click para evitar repiticiones
                             
                         }
-
-
-
                     });
-
-                
-                });
-
-                    
+                });   
                 }
 
-
-                function cargarSelect(select,opcionSeleccionada,inputs,selects,index,penultimoValor){
+                function cargarSelect(select,opcionSeleccionada,inputs,selects,index){
 
                     if (opcionSeleccionada == "+10") {
-                        console.log("Se hizo clic en un elemento select " + opcionSeleccionada);
                         select.style.display = "none";
 
                         // Obtén el input asociado al select clikeado
                         let inputAsociado = inputs[index];
                         inputAsociado.type = "text";
-
-                        if(penultimoValor !== 0){
-
-                            inputAsociado.value = penultimoValor;
-                            console.log(" soy diferente a cero : "+penultimoValor);
-                        }
 
                         let btnActualizar = inputAsociado.nextElementSibling;
                         btnActualizar.style.display = "block";
@@ -399,7 +325,6 @@
 
                         let valores = opcionSeleccionada.split(',');// array de valores la coma es el delimitador de uno y otro valor
                         
-                        console.log("valores : "+valores);
                         let opcionSelect = valores[0];
                         let stockProducto = valores[1];
                         let idCarrito = valores[2];
@@ -409,10 +334,6 @@
 
                         if (idCarrito !== null && idProducto !== null &&stockProducto !== null && opcionSelect !== undefined && opcionSelect.trim() !== '') {
                             
-                            console.log("stock: "+stockProducto);
-                            console.log("opcionSelect : "+opcionSelect);
-                            console.log("idCarrito : "+idCarrito);
-                            console.log("idProducto : "+idProducto);
 
                             let bandera =  verificarCantidad(opcionSelect,stockProducto);
                             
@@ -421,11 +342,11 @@
                                 actualizarDatos(opcionSelect,idCarrito,idProducto,0,false);
                             
                             }else if(bandera === false){
+
                                 opcionSeleccionada.value = 1;
-                                console.log("opcion con el valor de 1");
+
                             }else{
                                 
-                                console.log("llegue null");
                                 alert("stock disponible : "+stockProducto);
                                 actualizarDatos(stockProducto,idCarrito,idProducto,0,false);
                                 //Recorre las opciones y selecciona la que coincide con el nuevo valor
@@ -452,9 +373,8 @@
 
             function actualizarDatos(cantidad, idCarrito,idProducto,inputAsociado,decision) {
 
-                // xhr.setRequestHeader("X-CSRF-TOKEN", '' + {{ csrf_token() }} + '');
+                // xhr.setRequestHeader("X-CSRF-TOKEN", '' + {{ csrf_token() }} + ''); para post , get no lo pide
 
-                console.log("cantidad p " + cantidad + "  id=" + idCarrito+" idProducto : "+idProducto);
                 if(decision){
                     inputAsociado.nextElementSibling.disabled = true;
                 }
@@ -471,7 +391,7 @@
 
                             inputAsociado.nextElementSibling.disabled = false;
                         }
-                        console.log("respuesta aaa  : "+respuesta);                        
+                                               
                         var respuestaString = JSON.stringify(respuesta);;
 
                         console.log("respuesta: "+respuestaString);
@@ -480,29 +400,28 @@
 
                             let valor = respuesta["stock  disponible"];
 
-                            console.log(respuesta["stock  disponible"]);
+                            console.log("stock en linea : "+valor);
                             if(decision){
                                 inputAsociado.value = valor;
-                                
                             }
                         }
 
                         if(respuesta["total"] != null){
 
-                            console.log("total : "+respuesta["total"]);
+                            console.log("total actualizado es : "+respuesta["total"]);
                            
                             let totalYcantidad = respuesta["total"];
                             
                             let valores = totalYcantidad.split(',');// array de valores la coma es el delimitador de uno y otro valor
                         
-                            console.log("valores : "+valores);
+                           
                             let total = valores[0];
                             let cantidadCarrito = valores[1];
 
                             let TotalFinal = document.getElementById("totalFinal").innerHTML = total; 
                             let spanCantidad = document.getElementById("cantidadCarrito").innerHTML = "cantidad("+cantidadCarrito+")"; 
-                            // strongTotalFinal;
-                            console.log("el total final es   : "+total);
+                            
+                         
                         }
                         
                         
@@ -511,7 +430,7 @@
 
                 // Solo enviar el número directamente
                 xhr.send();
-                console.log("cantidad f " + cantidad.toString());
+               
             }
         </script>
 
