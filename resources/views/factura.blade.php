@@ -13,7 +13,7 @@
             </div>
             <div class="w-full h-96  flex flex-col gap-4  p-4 pt-7  " style="height: 93%;">
                 <div class="flex justify-between border-solid  border-b-2 text-base border-b-slate-900">
-                    <p>Camilo Suarez Martinez</p>
+                    <p>{{Auth::user()->nombreUsuario}}</p>
                     <script>
                         // Date date =new Date();
                         // console.log(date);
