@@ -15,15 +15,16 @@
                 <div class="flex justify-between border-solid  border-b-2 text-base border-b-slate-900">
                     <p>{{Auth::user()->nombreUsuario}}</p>
                     <div class="flex gap-3">
-                        <p id="fecha">fecha : {{$fechaActual}}</p>
+                        <p id="fecha"></p>
                     <script>
                         const today = new Date();
-                        let date = today.getDate()+"-"+today.getMonth()+"-"+today.getFullYear();
+                        let date = today.getDate()+"-"+(today.getMonth()+1)+"-"+today.getFullYear();
 
-                        // let pFecha = document.querySelector("#fecha");
-                        // pFecha.innerHTML = "fecha :  "+date;
+                        let pFecha = document.querySelector("#fecha");
+                        pFecha.innerHTML = "fecha :  "+date;
                         console.log("date : "+today); 
                     </script>
+                        <p>atras</p>
                         <p>home</p>
                     </div>
                     
@@ -77,18 +78,19 @@
                             <div class="w-full h-full   flex " >
                                 <div class=" text-xl h-auto  flex justify-start items-center  pl-10" style=" width: 55%;">
                                     @php
-                                        // total // 354192 es este ya que me genera de los producto comprados actuales y no de todos hacer logicas para solos del momento
+                                       
                                         $iva = $subtotalBase * 0.19;
-                                        $totalFinal = $iva+$subtotalBase; //369066.6
+                                       
                                     @endphp
                                     <strong> Total : {{$total}}</strong>
+                                    
                                 </div>
                                 <div class="  flex flex-col justify-end text-end " style="width: 45%">
                                     <div>
                                         <strong class="border-solid  border-b-2 border-b-slate-900  text-center">Subtotal base : {{$subtotalBase}}</strong>
                                     </div>
                                     <div class=" flex justify-end ">
-                                        <p class="  border-solid border border-b-2 border-b-slate-900"> Iva-19% : {{$iva}}</p>
+                                        <p class="  border-solid  border-b-2 border-b-slate-900"> Iva-19% : {{$iva}}</p>
                                     </div>
                                 </div>
                             </div>

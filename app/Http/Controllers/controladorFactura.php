@@ -7,13 +7,14 @@ use App\Models\detallesFactura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 use App\Models\Factura;
 class controladorFactura extends Controller
 
 {
      
-    // $idFacturaRecuperado = 0; 
-    // protected $idUsuario = Auth::user()->idUsuario;
+
     public function index(){
 
       
@@ -21,22 +22,15 @@ class controladorFactura extends Controller
         // SELECT carritocompras.idCarritoCompra , productos.idProducto, carritocompras.cantidadCarrito, productos.precioProducto FROM productos
         //  INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto WHERE carritocompras.idUsuario=2;
 
-       
-
         $informacionCarritos = DB::table('productos')
         ->join('carritoCompras', 'productos.idProducto', '=', 'carritoCompras.idProducto')
         ->where('carritoCompras.idUsuario', '=', $idUsuario)
         ->select('carritoCompras.idCarritoCompra', 'productos.idProducto','productos.nombreProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto','productos.stockProducto')
         ->get();
 
-        // return $informacionCarritos;
-        //foreach para sacar el total , iva y total final
+  
 
-        $mostrar = false;
-        // return $informacionCarritos->toArray();
         if(!$informacionCarritos->isEmpty()){
-
-            // return "dentre";
           
             $totalbase = 0;
 
@@ -64,12 +58,13 @@ class controladorFactura extends Controller
             ]);
     
             $idFacturaRecuperado = $insertarFactura->id;
-        
+            Session::put('idFacturaRecuperado', $idFacturaRecuperado);
+
             //listar todos los carritos
     
             $todosLosCarritos = carritoCompra::get();
     
-            // return $todosLosCarritos;
+            
             //generar los datelles con el id recuperado
             //forech para insertar detalles 
             foreach ($informacionCarritos as $unCarrito) {
@@ -113,34 +108,34 @@ class controladorFactura extends Controller
                 
             }
     
-            //eliminar los carritos ya comprados de ese usuario , mirar en amazon este delete si hace de manera general porque se podria hacer con solos lo que se compran aunque ahi se compran todos
+            //eliminar los carritos ya comprados de ese usuario 
             DB::table('carritocompras') //utilizar la consulta del inner join ya realizada
             ->where('idUsuario', $idUsuario)
             ->delete();
-            // $productosComprados[] = [
-            //     'nombreProducto' => $carrito->nombreProducto,
-            //     'precioProducto' => $carrito->precioProducto
-            // ]; si los eliminan entonces crearse un metodo que recibas los datos y que lo que haga es retornarlos y preguntar en la otra vista si tiene un valor o no y si lo tiene mandar una url y otra 
-    
-            // return "iva : ".$iva." totalBase : ".$totalbase." total final : ".$totalFinal." idGenerado : ".$idFacturaRecuperado;
-            
-            // SELECT productos.idProducto, detallesfacturas.idDetalle, facturas.idFactura, productos.nombreProducto,
+
+            return $this->datosFactura($idUsuario,$idFacturaRecuperado);
+        
+         }else{
+        
+            $idFacturaRecuperado = Session::get('idFacturaRecuperado', 0);
+            return $this->datosFactura($idUsuario,$idFacturaRecuperado);
+
+        }
+        
+        
+       
+
+    }
+
+
+    public function datosFactura($idUsuario, $idFacturaRecuperado){
+
+        // SELECT productos.idProducto, detallesfacturas.idDetalle, facturas.idFactura, productos.nombreProducto,
             //  productos.precioProducto , detallesfacturas.cantidadDetalle, detallesfacturas.subTotalDetalle , facturas.totalFactura 
             //  FROM productos 
             //  INNER JOIN detallesfacturas ON productos.idProducto = detallesfacturas.idProducto 
             //  INNER JOIN facturas ON detallesfacturas.idFactura = facturas.idFactura 
             //  WHERE facturas.idUsuario=? y where detallesFacturas.idFactura = ?;
-        
-         }else{
-            //como parsarle el idFactura recuperado a la funcion pero el mantega el valor que se le cambio
-            // buscar el ultimo de id de esa factura de  ese usuario registrado
-
-            // $factura = factura::get()->where("idUsuario",'=',$idUsuario);
-            return "datos vacios";
-        }
-        
-        
-        
         
         $informacionFactura = DB::table('productos')
         ->join('detallesFacturas', 'productos.idProducto', '=', 'detallesFacturas.idProducto')
@@ -150,11 +145,10 @@ class controladorFactura extends Controller
         ->select('productos.idProducto','detallesFacturas.idDetalle','facturas.idFactura','productos.nombreProducto','productos.precioProducto','detallesFacturas.cantidadDetalle','detallesFacturas.subtotalDetalle','facturas.totalFactura')
         ->get();
 
-        $fecha = date("d-m-y");
-        // dd($idFacturaRecuperado);
-        // dd($informacionFactura);
+    
 
-        return view("factura" ,["informacionFactura"=>$informacionFactura],['fechaActual'=>$fecha]);
+        return view("factura" ,["informacionFactura"=>$informacionFactura]);
+
 
     }
 }
