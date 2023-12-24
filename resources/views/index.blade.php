@@ -64,9 +64,21 @@
        
         <div class="bg-white">
             <div class="mx-auto max-w-2xl px-4 sm:px-6 pt-10 lg:max-w-7xl lg:px-8">
-            <h2>productos </h2>                         
-            <p>{{Auth::user()->nombreUsuario}}</p>
-        
+            @auth
+                <div class="h-20 flex flex-col gap-1">
+
+                    <p>{{Auth::user()->nombreUsuario}}</p>
+                    <nav >
+                        <ul class="flex gap-5">
+                            <li>Perfil</li>
+                            <li>item</li>
+                            <li>item</li>
+                        </ul>
+                    </nav>
+                </div>
+            @endauth  
+
+
             <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                     
 
@@ -126,6 +138,13 @@
 
             </div>
             </div>
+            <footer>
+                <div class=" h-32  flex items-center justify-center gap-5">
+                    
+                    <strong>Hacer un pie de pagina</strong>
+                    <p>ideas : acerca de nosotros , las redes con logos etc... </p>
+                </div>
+            </footer>
         </div>
 
     </section>

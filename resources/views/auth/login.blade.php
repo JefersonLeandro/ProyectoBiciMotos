@@ -78,13 +78,6 @@ meta-description="Esta es la descripcion de login"
 
 
 </main>
-@guest
-    <strong>usuario sin atenticacion</strong>
-@endguest
 
-@auth
-    <strong>asuario atenticado</strong>
-    {{Auth::user()}}
-@endauth
 
 </x-layouts.plantillaPrincipal>
