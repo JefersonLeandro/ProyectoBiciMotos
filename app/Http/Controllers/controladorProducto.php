@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class controladorProducto extends Controller
 {
-
+    
     public function index(){
-
+        
         $productos = Producto::get();
 
         if(Auth::user()){
@@ -26,6 +26,14 @@ class controladorProducto extends Controller
     
     }
 
+
+    public function indexTablaProducto(){
+
+        $productos = Producto::get();
+
+        return view('tablaProducto', ['productos' => $productos]);
+
+    }
 
 
     public function obtenerTamanoCarrito(){

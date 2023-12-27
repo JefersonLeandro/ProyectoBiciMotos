@@ -14,7 +14,10 @@
     box-sizing: border-box;
 }
 
+.alto22vh{
 
+    height: 22vh;
+}
 
 
 /* END STYLE */
@@ -103,4 +106,29 @@
 
 
 /* END STYLE FACTURA */
+/* -------------------------------------------------------- */
+
+
+
+/* STYLE AREA DE AMINISTRACION  */
+.scrollTablas{
+
+
+    overflow-x: scroll;
+    max-width: 95%; 
+
+}
+
+
+.scrollTablas::-webkit-scrollbar {
+    height: 16px; /* Ancho de la barra de desplazamiento */
+}
+.scrollTablas::-webkit-scrollbar-track {
+    background-color: #ffffff; /* Color del fondo de la barra de desplazamiento */
+}
+.scrollTablas::-webkit-scrollbar-thumb {
+    background-color: #e1e0e0; /* Color de la barra de desplazamiento */
+    border-radius: 10px;
+}
+/* END STYLE AREA DE AMINISTRACION */
 /* -------------------------------------------------------- */

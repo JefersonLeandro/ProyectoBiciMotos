@@ -42,7 +42,7 @@
                             
                             <div class=" ancho20 flex gap-3 items-center ">
                                 <a href="{{route("registro")}}" class="underline">Registro</a>
-                                <a href="{{route("login")}}" class="underline">InciarSession</a>
+                                <a href="{{route('login')}}" class="underline">InciarSession</a>
                             </div>
 
                         @endguest
@@ -66,11 +66,17 @@
             <div class="mx-auto max-w-2xl px-4 sm:px-6 pt-10 lg:max-w-7xl lg:px-8">
             @auth
                 <div class="h-20 flex flex-col gap-1">
-
+                    @php
+                        $idRolUsuario = Auth::user()->idRol;
+                    @endphp
                     <p>{{Auth::user()->nombreUsuario}}</p>
-                    <nav >
+                    <nav>
                         <ul class="flex gap-5">
                             <li>Perfil</li>
+                            
+                            @if ($idRolUsuario == 2)
+                               <li class="cursor-pointer"><a href="{{route("areaAdmin")}}" >Area de administracion</a></li> 
+                            @endif 
                             <li>item</li>
                             <li>item</li>
                         </ul>
