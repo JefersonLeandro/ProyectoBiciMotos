@@ -15,7 +15,7 @@ class controladorTablaUsuario extends Controller
         $usuarios = Usuario::get();
         $roles = roles::get();
      
-        return view("tablaUsuarios",['usuarios'=> $usuarios, 'roles'=>$roles]);
+        return view("tablas.tablaUsuarios",['usuarios'=> $usuarios, 'roles'=>$roles]);
 
 
     }

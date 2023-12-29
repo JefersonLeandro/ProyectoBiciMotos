@@ -12,7 +12,7 @@ class controladorTablaDetallesFactura extends Controller
 
         
 
-        return view("tablaDetallesFactura");
+        return view("tablas.tablaDetallesFactura");
 
     }
 }

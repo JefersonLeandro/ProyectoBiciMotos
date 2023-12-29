@@ -151,4 +151,17 @@ class controladorFactura extends Controller
 
 
     }
+    
+
+    public function indexTablaFactura(){
+
+
+
+
+
+        return view("tablas.tablaFactura");
+
+    }
+
+
 }

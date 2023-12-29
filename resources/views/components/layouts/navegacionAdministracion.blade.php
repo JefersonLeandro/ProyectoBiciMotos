@@ -1,14 +1,14 @@
-<main class=" h-screen bg-slate-100" >
+<main class=" h-screen bg-slate-100">
     
     <header class=" alto22Vh">
         <div class=" pl-8 flex items-center  justify-between h-12   text-xl bg-slate-300">
-            <h3>Area de administracion</h3>
+            <h3 >Area de administracion</h3>
 
         </div>
         <div class="bg-slate-300 pl-8 h-24">
             <div class="flex justify-between pr-20">
                 <p class="text-lg">tablas</p>
-                <p>home</p>
+                <a href="{{route('index')}}">home</a>
 
             </div>
             
@@ -36,8 +36,8 @@
             
         </div>
     </header>
-    <div class="  pl-10 pt-5 pr-10 flex flex-col justify-start items-start " style="height: 79vh;">
+
         {{$slot}}
-    </div>
+   
 
 </main>

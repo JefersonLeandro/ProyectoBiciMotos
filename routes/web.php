@@ -6,7 +6,6 @@ use App\Http\Controllers\controladorProducto;
 use App\Http\Controllers\controladorCarrito;
 use App\Http\Controllers\controladorFactura;
 use App\Http\Controllers\tablas\controladorTablaDetallesFactura;
-use App\Http\Controllers\tablas\controladorTablaFactura;
 use App\Http\Controllers\tablas\controladorTablaRoles;
 use App\Http\Controllers\tablas\controladorTablaUsuario;
 use App\Http\Controllers\tablas\controladorTablaImagen;
@@ -33,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 
     //Rutas generales
     Route::get('/' , [controladorProducto::class,'index'])->name("index");
-
+    
 
     //Navegar sobre los formularios , vistas o indexar
     Route::view("/registro","auth.registro")->name("registro");
@@ -42,8 +41,8 @@ use Illuminate\Support\Facades\Route;
     Route::get("/administracion",[controladorTablaUsuario::class,'index'])->name("areaAdmin");
     Route::get("/Roles",[controladorTablaRoles::class,'index'])->name("tablaRoles");
     Route::get("/Productos",[controladorProducto::class,'indexTablaProducto'])->name("tablaProducto");
-    Route::get("/imgs",[controladorTablaImagen::class,'index'])->name("tablaImagen");
-    Route::get("/facturas",[controladorTablaFactura::class,'index'])->name("tablaFactura");
+    Route::get("/imagenes",[controladorTablaImagen::class,'index'])->name("tablaImagen");
+    Route::get("/facturas",[controladorFactura::class,'indexTablaFactura'])->name("tablaFactura");
     Route::get("/detallesFactura",[controladorTablaDetallesFactura::class,'index'])->name("tablaDetallesFactura");
     
     
@@ -55,11 +54,12 @@ use Illuminate\Support\Facades\Route;
     Route::post("/eliminarCarrito/{idCarrito}",[controladorCarrito::class,'eliminarUnCarrito'])->name("eliminarCarrito");
     Route::get("/actualizarCarrito",[controladorCarrito::class,'actualizarCarrito'])->name("actualizarCarrito");
     Route::get("/factura",[controladorFactura::class,'index'])->name("factura");
-
+    
     Route::post("/crudUsuario",[controladorTablaUsuario::class,'opciones'])->name("crudUsuario");
+    Route::post("/imagenes",[controladorTablaImagen::class,'opciones'])->name("crudTablaImagen");
 
 
-    // Route::get("/Factura",[controladorFactura::class,'insertarF'])->name("actualizarCarrito");
+    
     
 
 

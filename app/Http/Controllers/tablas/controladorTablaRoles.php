@@ -11,7 +11,7 @@ class controladorTablaRoles extends Controller
 
         
 
-        return view("tablaRoles");
+        return view("tablas.tablaRoles");
 
     }
 }

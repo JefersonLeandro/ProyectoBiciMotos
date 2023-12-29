@@ -15,30 +15,25 @@ class controladorCarrito extends Controller
     public function index()
     {
 
-        // SELECT carritocompras.idCarritoCompra , productos.idProducto, productos.nombreProducto, productos.precioProducto ,productos.stockProducto FROM productos 
-        // INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto WHERE carritocompras.idUsuario=1;
-
-        // 1. la que indexa los productos que liste por primera vista el subtotal base .
-        // 2. cuando se hagan actulizaciones se reciben el id y la cantidad de ese producto para volver a mandar el subtotal actulizado.
+        // SELECT carritocompras.idCarritoCompra , productos.idProducto, productos.nombreProducto, productos.precioProducto ,productos.stockProducto , imagenes.nombreImagen FROM productos 
+        // INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto 
+        // INNER JOIN imagenes on productos.idProducto = imagenes.idProducto WHERE carritocompras.idUsuario=?;
 
         if (Auth::user()) {
 
             $idUsuario = Auth::user()->idUsuario;
 
-            //tamanoCarrito
-            // $controladorProducto = new controladorProducto();
-            // $tamanoCarrito = $controladorProducto->obtenerTamanoCarrito();
 
-
-            //innerJoin para la informacion , falta agregar logica para la --IMAGEN--
+            //innerJoin para la informacion  
             $informacionCarrito = DB::table('productos')
                 ->join('carritoCompras', 'productos.idProducto', '=', 'carritoCompras.idProducto')
+                ->join('imagenes', 'productos.idProducto', '=', 'imagenes.idProducto')
                 ->where('carritoCompras.idUsuario', '=', $idUsuario)
-                ->select('carritoCompras.idCarritoCompra', 'productos.idProducto','productos.nombreProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto', 'productos.stockProducto')
+                ->select('imagenes.nombreImagen','carritoCompras.idCarritoCompra', 'productos.idProducto','productos.nombreProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto', 'productos.stockProducto')
                 ->get();
 
                 
-                // return $informacionCarrito;
+                
             //comprobacion para cuando el stock de un producto quede en cero 
             $productosAgotados = [];
             $agotado = false;
@@ -71,8 +66,9 @@ class controladorCarrito extends Controller
 
                 $informacionCarritoActulizada = DB::table('productos')
                 ->join('carritoCompras', 'productos.idProducto', '=', 'carritoCompras.idProducto')
+                ->join('imagenes', 'productos.idProducto', '=', 'imagenes.idProducto')
                 ->where('carritoCompras.idUsuario', '=', $idUsuario)
-                ->select('carritoCompras.idCarritoCompra', 'productos.idProducto','productos.nombreProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto', 'productos.stockProducto')
+                ->select('imagenes.nombreImagen','carritoCompras.idCarritoCompra', 'productos.idProducto','productos.nombreProducto','carritoCompras.cantidadCarrito', 'productos.precioProducto', 'productos.stockProducto')
                 ->get();
 
                 $acumulador  = $this->cantidadCarritos($informacionCarritoActulizada);
@@ -120,13 +116,7 @@ class controladorCarrito extends Controller
 
         $idProducto = intval($idP);//parseo a entero
 
-        //producto sin stock hacer validacion si el stock es cero
-        //consulta donde verifique si el stock es igual a cero  
-        
-        // SELECT * FROM productos WHERE stockProducto =0 AND idProducto = 1;
-
       
-
 
         if( is_numeric($idProducto) && ($idProducto > 0)){
 

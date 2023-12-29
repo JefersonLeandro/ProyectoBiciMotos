@@ -120,7 +120,7 @@
 }
 
 
-.scrollTablas::-webkit-scrollbar {
+.scrollTablas::-webkit-scrollbar{
     height: 16px; /* Ancho de la barra de desplazamiento */
 }
 .scrollTablas::-webkit-scrollbar-track {
@@ -130,5 +130,72 @@
     background-color: #e1e0e0; /* Color de la barra de desplazamiento */
     border-radius: 10px;
 }
+
+/* style tablaImagen */
+
+
+.scrollBusqueda{
+
+
+    overflow-y: scroll;
+    max-width: 95%; 
+
+}
+
+.scrollBusqueda::-webkit-scrollbar,.scrollTablaImagen::-webkit-scrollbar {
+    width: 9px; /* Ancho de la barra de desplazamiento */
+}
+.scrollBusqueda::-webkit-scrollbar-track, .scrollTablaImagen::-webkit-scrollbar-track {
+    background-color: #9d9999; /* Color del fondo de la barra de desplazamiento */
+}
+.scrollBusqueda::-webkit-scrollbar-thumb ,.scrollTablaImagen::-webkit-scrollbar-thumb{
+    background-color: #e1e0e0; /* Color de la barra de desplazamiento */
+    border-radius: 10px;
+}
+
+.scrollTablaImagen{
+
+
+    overflow-y: scroll;
+    max-height: 58vh; 
+
+}
+.scrollTablaImagen::-webkit-scrollbar {
+    width: 10px; /* Ancho de la barra de desplazamiento */
+}
+ .scrollTablaImagen::-webkit-scrollbar-track {
+    background-color: #d3cccc; /* Color del fondo de la barra de desplazamiento */
+}
+.scrollTablaImagen::-webkit-scrollbar-thumb{
+    background-color: #b6b0b0; /* Color de la barra de desplazamiento */
+    border-radius: 10px;
+}
+
+.scrollTablaUsuarios{
+
+    overflow-y: scroll;
+    max-height: 75vh; 
+
+}
+
+.scrollTablaUsuarios::-webkit-scrollbar {
+    width: 11px; /* Ancho de la barra de desplazamiento */
+}
+ .scrollTablaUsuarios::-webkit-scrollbar-track {
+    background-color: #c9c9c9; /* Color del fondo de la barra de desplazamiento */
+}
+.scrollTablaUsuarios::-webkit-scrollbar-thumb{
+    background-color: #b6b0b0; /* Color de la barra de desplazamiento */
+    border-radius: 10px;
+}
+
+/* end style tablaImagen */
+
+
+
+
+
+
+
 /* END STYLE AREA DE AMINISTRACION */
 /* -------------------------------------------------------- */

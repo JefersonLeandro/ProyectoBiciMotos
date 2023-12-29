@@ -6,8 +6,9 @@ meta-description="Esta es la descripcion de la tabla Usuarios"
 <x-layouts.navegacionAdministracion>
    
        
-
-    <table class="" style="width: 98%; height:full;">
+    <div class="  pl-10 pt-5 pr-10    " style="height: 79vh;">
+    <div class="flex flex-col justify-start items-start scrollTablaUsuarios  " style="width:90%">
+    <table class="w-full" style=" height:full; ">
             
         <thead class="bg-slate-400 h-12 ">
             <th class="py-2 px-3 text-start w-44 ">Nombre </th>
@@ -100,6 +101,8 @@ meta-description="Esta es la descripcion de la tabla Usuarios"
         </tbody>
         
     </table>
+    </div>
+    </div>
    
 </x-layouts.navegacionAdministracion>
 </x-layouts.plantillaPrincipal>

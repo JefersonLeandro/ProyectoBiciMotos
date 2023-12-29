@@ -69,7 +69,7 @@
                             <div class="p-3 h-36 rounded flex border-solid border-black border">
                                 
                                 <div class=" w-1/5  ">
-                                    <img src="{{ asset('imagenes/vino.jpg') }}"
+                                    <img src="{{ asset('imgs/'.$carrito->nombreImagen) }}"
                                         alt="Tall slender porcelain bottle with natural clay textured body and cork stopper."
                                         class="h-full w-full object-cover object-center group-hover:opacity-75">
                                 </div>
