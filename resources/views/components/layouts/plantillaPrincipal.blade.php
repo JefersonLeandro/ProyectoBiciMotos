@@ -7,7 +7,7 @@
     <meta name="descripcion" content="{{$metaDespcripcion ?? 'descripcion por defecto'}}" >
     <title>{{$title ?? ''}}</title>
     @vite(['resources/css/styles.css','resources/js/app.js'])
-
+   
     
 </head>
 <body>
