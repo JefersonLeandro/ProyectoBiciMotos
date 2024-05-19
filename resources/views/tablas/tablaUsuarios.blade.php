@@ -22,7 +22,7 @@ meta-description="Esta es la descripcion de la tabla Usuarios"
         <tbody class="">
             @foreach ($usuarios as $unUsuario)
             
-                @php
+                @php    
                 $idRolUsuario = $unUsuario->idRol; 
                 @endphp
                 

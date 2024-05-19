@@ -63,8 +63,6 @@ class controladorTablaUsuario extends Controller
     }
     public function modificar(Request $request,$idUsuario){
 
-
-
         $findUsuario = Usuario::findOrFail($idUsuario); 
 
         $findUsuario->update([
@@ -76,6 +74,7 @@ class controladorTablaUsuario extends Controller
         ]);
         
     }
+    
     public function eliminar(Request $request,$idUsuario){
     
         $findUsuario = Usuario::findOrFail($idUsuario);

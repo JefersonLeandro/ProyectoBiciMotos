@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class roles extends Model
 {
     use HasFactory;
+    
+    protected $primaryKey = 'idRol';
+
+    protected $fillable=[ 
+        'nombreRol'
+    ];
+
+
+    public $timestamps = false;
 }
