@@ -55,7 +55,7 @@ meta-description="Esta es la descripcion de la tabla Usuarios"
                         </td>
                         
                         <td class="py-2 pl-3">
-                            <button class="bg-slate-400 w-20 h-7 rounded " name="fAccion" value="modificar">Modificar</button>
+                            <button class="bg-slate-400 w-20 h-7 rounded" name="fAccion" value="modificar">Modificar</button>
                             <button class="bg-red-300 w-20 h-7 rounded " name="fAccion" value="eliminar">Eliminar</button>
                         </td>
                     </form>
