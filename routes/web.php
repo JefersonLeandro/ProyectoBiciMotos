@@ -57,7 +57,8 @@ use Illuminate\Support\Facades\Route;
     
     Route::post("/crudUsuario",[controladorTablaUsuario::class,'opciones'])->name("crudUsuario");
     Route::post("/imagenes",[controladorTablaImagen::class,'opciones'])->name("crudTablaImagen");
-    Route::post("/editar-rol/{idRol}",[controladorTablaRoles::class,'opciones'])->name("crudTablaRoles");
+    Route::post("/crud-rol/{idRol}",[controladorTablaRoles::class,'opciones'])->name("crudTablaRoles");
+    Route::post("/crud-productos/{idProducto}",[controladorProducto::class,'opciones'])->name("crudTablaProducto");
 
 
     

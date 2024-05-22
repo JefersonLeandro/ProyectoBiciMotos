@@ -9,7 +9,16 @@ class Producto extends Model
 {
     use HasFactory;
 
-   
+    protected $primaryKey = 'idProducto';
+
+    protected $fillable =[
+        'nombreProducto',
+        'descripcionProducto',
+        'precioProducto',
+        'stockProducto'
+    ]; 
+    
+    public $timestamps = false;  
 
 
 }

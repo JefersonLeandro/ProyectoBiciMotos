@@ -42,12 +42,9 @@ class controladorProducto extends Controller
 
 
     public function indexTablaProducto(){
-
-       
-
-
         
-        return view('tablas.tablaProducto');
+        $productos = Producto::get();
+        return view('tablas.tablaProducto',['productos'=>$productos]);
 
     }
 
@@ -57,6 +54,55 @@ class controladorProducto extends Controller
         $idUsuario = Auth::user()->idUsuario;
         $tamanoCarrito = carritoCompra::where('idUsuario', $idUsuario)->count();
         return $tamanoCarrito;
+    }
+    public function opciones(Request $request){
+        
+        $accion = $request->fAccion;
+        $idProducto = $request->idProducto; 
+        
+        switch ($accion) {
+
+            case 'insertar':
+                $this->insertar($request); 
+                break;
+            case 'modificar':
+                $this->modificar($idProducto, $request);
+                break;
+            case 'eliminar':
+                $this->eliminar($idProducto, $request);
+                break;
+        }
+
+        return back(); 
+
+    }
+
+    public function insertar($request){
+        Producto::create([
+            "nombreProducto"=>$request->fNombreProducto,
+            "descripcionProducto"=>$request->fDescripcionProducto,
+            "precioProducto"=>$request->fPrecioProducto,
+            "stockProducto"=>$request->fStockProducto 
+        ]);   
+    }
+
+    public function modificar($idProducto, $request){
+        
+        $productoBd = Producto::findOrFail($idProducto);
+        
+        $productoBd->update([
+            "nombreProducto"=>$request->fNombreProducto,
+            "descripcionProducto"=>$request->fDescripcionProducto,
+            "precioProducto"=>$request->fPrecioProducto,
+            "stockProducto"=>$request->fStockProducto
+        ]);
+
+    }
+
+    public function eliminar($idProducto, $request){
+        
+        $productoBd = Producto::findOrFail($idProducto);
+        $productoBd->delete();
     }
 
 
