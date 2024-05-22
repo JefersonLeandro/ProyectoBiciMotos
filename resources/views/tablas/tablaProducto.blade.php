@@ -5,13 +5,13 @@ meta-description="Esta es la descripcion de la tabla producto"
 >
 <x-layouts.navegacionAdministracion>
 
-    <div>
+    <div class="ml-10 mt-5">
         <table>
             <thead>
-                <th>Nombre </th>
-                <th>Descripcion</th>
-                <th>Precio</th>
-                <th>Stock</th>
+                <th class="text-start pl-5">Nombre </th>
+                <th class="text-start pl-5">Descripcion</th>
+                <th class="text-start pl-5">Precio</th>
+                <th class="text-start pl-5">Stock</th>
                 <th></th>
             </thead>
             <tbody>
