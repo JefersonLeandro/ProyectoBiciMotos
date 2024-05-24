@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Factura;
 
 class Usuario extends Authenticatable
 {
@@ -49,4 +50,11 @@ class Usuario extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function facturas() :HasMany{
+
+        return $this->hasMany(Factura::class, 'idUsuario','idFactura'); 
+
+    }
+    
 }

@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-
 use App\Models\Factura;
+
+
 class controladorFactura extends Controller
 
 {
@@ -155,13 +156,24 @@ class controladorFactura extends Controller
 
     public function indexTablaFactura(){
 
+        $facturas = Factura::get();
 
-
-
-
-        return view("tablas.tablaFactura");
-
+        return view("tablas.tablaFactura", ["facturas"=>$facturas]);
     }
 
+    public function detalles(){
+
+        $detalles = detallesFactura::get();
+
+        foreach ($detalles as $detalle) {
+            
+            $detallef = $detalle->fechaFactura; 
+            echo "detalles fecha : ".$detallef;
+
+        }
+
+        return view("tablas.tablaDetalles", ["detallesFactura"=>$detalles]);
+
+    }
 
 }
