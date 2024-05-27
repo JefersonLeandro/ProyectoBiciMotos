@@ -53,8 +53,10 @@ class Usuario extends Authenticatable
 
     public function facturas() :HasMany{
 
-        return $this->hasMany(Factura::class, 'idUsuario','idFactura'); 
+        return $this->hasMany(Factura::class, 'idUsuario','idUsuario'); 
 
     }
     
+
+
 }

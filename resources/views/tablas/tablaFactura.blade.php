@@ -7,18 +7,21 @@ meta-description="Esta es la descripcion de la tabla factura"
     <div>
         <table border="1">
             <thead>
-                 <th>Fecha factura</th>
-                 <th>Total factura</th>
-                 <th>Nombre Usuario</th>
-                 <th></th>
+                <th>Nombre </th>
+                <th>Identificacion </th>
+                <th>Fecha factura</th>
+                <th>Total factura</th>
+                <th>Accion</th>
             </thead>
             <tbody>
                 @foreach ($facturas as $factura)
                     <tr>
-                        <form action="" method="POST">
+                        <form action="{{route('detallesFactura', ['idFactura'=>$factura->idFactura])}}" method="POST">
+                            @csrf
+                            <td>{{$factura->usuario->nombreUsuario." ".$factura->usuario->apellidoUsuario}}</td>
+                            <td>{{$factura->usuario->identificacionUsuario}}</td>
                             <td>{{$factura->fechaFactura}}</td>
                             <td>{{$factura->totalFactura}}</td>
-                            <td>{{$factura->usuario->nombreUsuario}}</td>
                             <td>
                                 <button type="submit" class="hover:underline">Ver detalles</button>
                             </td>

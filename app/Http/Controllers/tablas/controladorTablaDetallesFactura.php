@@ -5,23 +5,16 @@ namespace App\Http\Controllers\tablas;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\detallesFactura; 
+use App\Models\Factura; 
 
 class controladorTablaDetallesFactura extends Controller
 {
     public function index(){
 
-        
-        $detalles = detallesFactura::get();
+        $detallesFacturas = detallesFactura::get();
 
-        foreach ($detalles as $detalle) {
-            
-            $detallef = $detalle->fechaFactura; 
-            echo "detalles fecha : ".$detallef;
-
-        }
-        
-
-        return view("tablas.tablaDetallesFactura");
+        return view("tablas.tablaDetallesFactura", ['detallesFactura'=>$detallesFacturas]);
 
     }
+
 }

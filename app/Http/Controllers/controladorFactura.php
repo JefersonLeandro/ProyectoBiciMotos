@@ -3,26 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\carritoCompra;
-use App\Models\detallesFactura;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Models\Factura;
+use App\Models\detallesFactura;
 
 
 class controladorFactura extends Controller
 
 {
-     
-
     public function index(){
 
       
         $idUsuario = Auth::user()->idUsuario;
-        // SELECT carritocompras.idCarritoCompra , productos.idProducto, carritocompras.cantidadCarrito, productos.precioProducto FROM productos
-        //  INNER JOIN carritocompras ON productos.idProducto = carritocompras.idProducto WHERE carritocompras.idUsuario=2;
-
+      
         $informacionCarritos = DB::table('productos')
         ->join('carritoCompras', 'productos.idProducto', '=', 'carritoCompras.idProducto')
         ->where('carritoCompras.idUsuario', '=', $idUsuario)
@@ -65,7 +61,6 @@ class controladorFactura extends Controller
     
             $todosLosCarritos = carritoCompra::get();
     
-            
             //generar los datelles con el id recuperado
             //forech para insertar detalles 
             foreach ($informacionCarritos as $unCarrito) {
@@ -100,7 +95,7 @@ class controladorFactura extends Controller
                     $idUsuarioC = $elCarrito->idUsuario;
     
                     if($idProducto == $idProductoC && $stockActulizado < $cantidadC ){
-                        //actulizar la cantidad ya que la cantidad supera el stock  
+                        //actualizar la cantidad ya que la cantidad supera el stock  
                        
                         $carritoEncontrado = carritoCompra::findOrfail($idCarritoC);
                         $carritoEncontrado->update(['cantidadCarrito'=> $stockActulizado]); 
@@ -122,21 +117,10 @@ class controladorFactura extends Controller
             return $this->datosFactura($idUsuario,$idFacturaRecuperado);
 
         }
-        
-        
-       
-
     }
 
 
     public function datosFactura($idUsuario, $idFacturaRecuperado){
-
-        // SELECT productos.idProducto, detallesfacturas.idDetalle, facturas.idFactura, productos.nombreProducto,
-            //  productos.precioProducto , detallesfacturas.cantidadDetalle, detallesfacturas.subTotalDetalle , facturas.totalFactura 
-            //  FROM productos 
-            //  INNER JOIN detallesfacturas ON productos.idProducto = detallesfacturas.idProducto 
-            //  INNER JOIN facturas ON detallesfacturas.idFactura = facturas.idFactura 
-            //  WHERE facturas.idUsuario=? y where detallesFacturas.idFactura = ?;
         
         $informacionFactura = DB::table('productos')
         ->join('detallesFacturas', 'productos.idProducto', '=', 'detallesFacturas.idProducto')
@@ -146,11 +130,7 @@ class controladorFactura extends Controller
         ->select('productos.idProducto','detallesFacturas.idDetalle','facturas.idFactura','productos.nombreProducto','productos.precioProducto','detallesFacturas.cantidadDetalle','detallesFacturas.subtotalDetalle','facturas.totalFactura')
         ->get();
 
-    
-
         return view("factura" ,["informacionFactura"=>$informacionFactura]);
-
-
     }
     
 
@@ -161,19 +141,14 @@ class controladorFactura extends Controller
         return view("tablas.tablaFactura", ["facturas"=>$facturas]);
     }
 
-    public function detalles(){
+    
+    public function detalles($idFactura){
+   
+        $informacionFDP = detallesFactura::where('idFactura', $idFactura)
+        ->with('producto')# relacion con el metodo producto del  modelo detalles factura
+        ->get();
 
-        $detalles = detallesFactura::get();
-
-        foreach ($detalles as $detalle) {
-            
-            $detallef = $detalle->fechaFactura; 
-            echo "detalles fecha : ".$detallef;
-
-        }
-
-        return view("tablas.tablaDetalles", ["detallesFactura"=>$detalles]);
-
+        return view("tablas.tablaDetallesFactura", ['detallesFactura'=>$informacionFDP]); 
     }
 
 }
