@@ -4,29 +4,38 @@ title="tabla factura "
 meta-description="Esta es la descripcion de la tabla factura"
 >
 <x-layouts.navegacionAdministracion>
-    <div>
+    <div class="ml-10 mt-5">
         <table border="1">
             <thead>
-                <th>Nombre </th>
-                <th>Identificacion </th>
-                <th>Fecha factura</th>
-                <th>Total factura</th>
-                <th>Accion</th>
+                <th class="text-start pl-5">Nombre </th>
+                <th class="text-start pl-5">Identificacion </th>
+                <th class="text-start pl-5">Fecha factura</th>
+                <th class="text-start pl-5">Total factura</th>
+                <th class="text-start pl-5">Accion</th>
             </thead>
             <tbody>
                 @foreach ($facturas as $factura)
-                    <tr>
-                        <form action="{{route('detallesFactura', ['idFactura'=>$factura->idFactura])}}" method="POST">
+           
+                    <tr class="hover:bg-sky-200">
                             @csrf
-                            <td>{{$factura->usuario->nombreUsuario." ".$factura->usuario->apellidoUsuario}}</td>
-                            <td>{{$factura->usuario->identificacionUsuario}}</td>
-                            <td>{{$factura->fechaFactura}}</td>
-                            <td>{{$factura->totalFactura}}</td>
-                            <td>
-                                <button type="submit" class="hover:underline">Ver detalles</button>
+                            <td class=" ">
+                                <p class=" px-6 ">{{$factura->usuario->nombreUsuario." ".$factura->usuario->apellidoUsuario}}</p>
                             </td>
-                        </form>    
-                    </tr>
+                            <td class="">
+                                <p class=" px-6 ">{{$factura->usuario->identificacionUsuario}}</p>
+                            </td>
+                            <td class="">
+                                <p class=" px-6  ">{{$factura->fechaFactura}}</p>
+                            </td>
+                            <td class=" ">
+                                <p class=" px-6  "> {{$factura->totalFactura}}</p>
+                            </td>
+                            <form action="{{route('detallesFactura', ['idFactura'=>$factura->idFactura])}}" method="POST">
+                                <td class="pd-2 ">
+                                    <button class="px-6" type="submit" class="hover:underline">Ver detalles</button>
+                                </td>
+                            </form>    
+                        </tr>
                 @endforeach
             </tbody>
         </table>
