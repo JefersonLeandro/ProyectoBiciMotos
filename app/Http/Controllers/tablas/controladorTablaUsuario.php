@@ -81,4 +81,11 @@ class controladorTablaUsuario extends Controller
         $findUsuario->delete();
 
     }
-}
+
+    public function buscar(Request $request){
+
+        return "tabla usuarios".$request; 
+    }
+
+
+}   

@@ -2,10 +2,13 @@
 
 title="tabla usuarios"
 meta-description="Esta es la descripcion de la tabla Usuarios"
+
 >
-<x-layouts.navegacionAdministracion>
+<x-layouts.navegacionAdministracion
+search="{{route('busquedaUsuarios')}}" 
+
+>
    
-       
     <div class="  pl-10 pt-5 pr-10    " style="height: 79vh;">
     <div class="flex flex-col justify-start items-start scrollTablaUsuarios  " style="width:90%">
     <table class="w-full" style=" height:full; ">

@@ -3,7 +3,9 @@
 title="tabla detalles factura "
 meta-description="Esta es la descripcion de la tabla detalles de la Factura"
 >
-<x-layouts.navegacionAdministracion>
+<x-layouts.navegacionAdministracion
+search="{{route('busquedaDetalles')}}"
+>
 
     <div class="ml-16 mt-5">
         <table border=1 class="">

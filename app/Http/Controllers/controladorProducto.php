@@ -105,6 +105,10 @@ class controladorProducto extends Controller
         $productoBd->delete();
     }
 
+    public function buscar(Request $request){
+
+        return "TABLA productos ".$request; 
+    }
 
     
 }

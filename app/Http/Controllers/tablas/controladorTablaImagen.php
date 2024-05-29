@@ -113,5 +113,9 @@ class controladorTablaImagen extends Controller
         return view("tablas.tablaImagen" ,['productosEncontrados'=>$productosEncontrados , 'valor'=>$valor ,"imagenes"=>$imagenes]); 
 
     }
+    public function buscar(Request $request){
+
+        return "TABLA Imagenes ".$request; 
+    }
 
 }

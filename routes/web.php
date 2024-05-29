@@ -61,6 +61,13 @@ use Illuminate\Support\Facades\Route;
     Route::post("/crud-productos/{idProducto}",[controladorProducto::class,'opciones'])->name("crudTablaProducto");
     Route::post("/ver-detalles/{idFactura}",[controladorFactura::class,'detalles'])->name("detallesFactura");
     
+    Route::post("/nombretabla/busqueda1",[controladorTablaUsuario::class,'buscar'])->name("busquedaUsuarios");
+    Route::post("/nombretabla/busqueda2",[controladorTablaRoles::class,'buscar'])->name("busquedaRoles");
+    Route::post("/nombretabla/busqueda3",[controladorProducto::class,'buscar'])->name("busquedaProductos");
+    Route::post("/nombretabla/busqueda4",[controladorTablaImagen::class,'buscar'])->name("busquedaImagenes");
+    Route::post("/nombretabla/busqueda5",[controladorFactura::class,'buscar'])->name("busquedaFacturas");
+    Route::post("/nombretabla/busqueda6",[controladorTablaDetallesFactura::class,'buscar'])->name("busquedaDetalles");
+    
 
     
     

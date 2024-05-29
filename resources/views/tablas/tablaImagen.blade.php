@@ -3,7 +3,9 @@
 title="tabla  imagen "
 meta-description="Esta es la descripcion de la tabla imagen"
 >
-<x-layouts.navegacionAdministracion>
+<x-layouts.navegacionAdministracion 
+search="{{route('busquedaImagenes')}}"
+>
 
 <section class=" flex  w-full" style="height: 80vh;" >
     <div class="  flex flex-col  pt-5 items-center " style="width: 30% ; height: 95%;">

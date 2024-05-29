@@ -1,9 +1,17 @@
 <main class=" h-screen bg-slate-100">
     
     <header class=" alto22Vh">
-        <div class=" pl-8 flex items-center  justify-between h-12   text-xl bg-slate-300">
-            <h3 >Area de administracion</h3>
-
+        <div class=" pl-8 flex items-center  justify-start h-12 bg-slate-300">
+            <h3 class="text-xl pr-32">Area de administracion</h3>
+            
+            <div>
+                <form action='{{ $search ?? " " }}' method="POST">
+                    @csrf
+                    <input type="search" name="fSearch" class=" px-2 rounded w-96">
+                    <button type="submit">buscar</button>
+                </form>
+            </div>
+            
         </div>
         <div class="bg-slate-300 pl-8 h-24">
             <div class="flex justify-between pr-20">
@@ -37,7 +45,7 @@
         </div>
     </header>
 
-        {{$slot}}
+    {{$slot}}
    
 
 </main>

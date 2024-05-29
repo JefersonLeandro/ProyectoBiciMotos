@@ -3,8 +3,12 @@
 title="tabla Roles"
 meta-description="Esta es la descripcion de la tabla roles"
 >
-<x-layouts.navegacionAdministracion>
+<x-layouts.navegacionAdministracion
+search="{{route('busquedaRoles')}}"
+>
     
+
+
     <div class="w-auto ml-32 mt-5 ">
         <table border="1" >
             <thead>

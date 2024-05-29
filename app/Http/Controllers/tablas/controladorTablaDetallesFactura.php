@@ -16,5 +16,8 @@ class controladorTablaDetallesFactura extends Controller
         return view("tablas.tablaDetallesFactura", ['detallesFactura'=>$detallesFacturas]);
 
     }
+    public function buscar(Request $request){
 
+        return "TABLA detalles ".$request; 
+    }
 }

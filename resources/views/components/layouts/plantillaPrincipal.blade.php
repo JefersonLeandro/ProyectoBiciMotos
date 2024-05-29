@@ -26,13 +26,7 @@
     {{$slot}}
 
     
-    {{-- @if (session("alerta"))
-    <div>
-        <script>
-            window.alert('{{ session('alerta') }}');
-        </script>
-    </div>
-    @endif --}}
+   
 </body>
 
 </html>

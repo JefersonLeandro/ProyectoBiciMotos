@@ -150,5 +150,10 @@ class controladorFactura extends Controller
 
         return view("tablas.tablaDetallesFactura", ['detallesFactura'=>$informacionFDP]); 
     }
+    
+    public function buscar(Request $request){
+
+        return "TABLA factura ".$request; 
+    }
 
 }

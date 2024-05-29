@@ -58,4 +58,9 @@ class controladorTablaRoles extends Controller
         $rolBD = Roles::findOrFail($idRol);
         $rolBD->delete(); 
     }
+
+    public function buscar(Request $request){
+
+        return "TABLA roles ".$request; 
+    }
 }
