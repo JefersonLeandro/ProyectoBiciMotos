@@ -5,7 +5,10 @@ meta-description="Esta es la descripcion de la tabla factura"
 >
 <x-layouts.navegacionAdministracion
 search="{{route('busquedaFacturas')}}"
+placeholder="Nombre, identificacion o fecha ."
+:columnas="['Nombre','identificacion','fecha']"
 >
+    {{-- incluir javaScript para cuando se selecione la fecha y este cambie el type del input por date y despues por otros --}}
     <div class="ml-10 mt-5">
         <table border="1">
             <thead>

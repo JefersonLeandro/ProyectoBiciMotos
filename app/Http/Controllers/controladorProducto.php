@@ -15,14 +15,6 @@ class controladorProducto extends Controller
     
     public function index(){
 
-
-        //SELECT productos.idProducto , productos.nombreProducto , productos.descripcionProducto,  productos.precioProducto ,productos.stockProducto, imagenes.nombreImagen FROM productos 
-        //INNER JOIN imagenes on productos.idProducto = imagenes.idProducto WHERE tipoImagen=0;
-        
-        
-
-        // $productos = Producto::get();
-
         $productos = DB::table('productos')
                 ->join('imagenes', 'productos.idProducto', '=', 'imagenes.idProducto')
                 ->where('tipoImagen', '=',0 )
@@ -45,7 +37,6 @@ class controladorProducto extends Controller
         
         $productos = Producto::get();
         return view('tablas.tablaProducto',['productos'=>$productos]);
-
     }
 
 

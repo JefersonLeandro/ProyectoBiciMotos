@@ -5,6 +5,7 @@ meta-description="Esta es la descripcion de la tabla detalles de la Factura"
 >
 <x-layouts.navegacionAdministracion
 search="{{route('busquedaDetalles')}}"
+placeholder="Nombre del producto."
 >
 
     <div class="ml-16 mt-5">

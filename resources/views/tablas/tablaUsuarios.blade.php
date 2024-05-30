@@ -5,10 +5,11 @@ meta-description="Esta es la descripcion de la tabla Usuarios"
 
 >
 <x-layouts.navegacionAdministracion
-search="{{route('busquedaUsuarios')}}" 
-
+search="{{route('busquedaUsuarios')}}"
+placeholder="Nombre , identificacion o email aqui. " 
+:columnas="['Nombre','identificacion','email']"
 >
-   
+   {{-- ajustar los tamaños segun las columnas a buscar.  --}}
     <div class="  pl-10 pt-5 pr-10    " style="height: 79vh;">
     <div class="flex flex-col justify-start items-start scrollTablaUsuarios  " style="width:90%">
     <table class="w-full" style=" height:full; ">

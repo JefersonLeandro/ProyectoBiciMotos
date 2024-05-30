@@ -5,9 +5,21 @@
             <h3 class="text-xl pr-32">Area de administracion</h3>
             
             <div>
+
                 <form action='{{ $search ?? " " }}' method="POST">
                     @csrf
-                    <input type="search" name="fSearch" class=" px-2 rounded w-96">
+                    <input type="search" name="fSearch" placeholder="{{ $placeholder ?? '' }}" class=" px-2 rounded w-96 " required>
+                    
+                    @isset($columnas)    
+                        <select name="" id="">
+                            <option disabled selected>-Seleccionar-</option>
+                            @foreach ($columnas as $columna)
+                                <option value="{{$columna}}">{{$columna}}</option>
+                            @endforeach
+                        </select>
+                    @endisset 
+                  
+
                     <button type="submit">buscar</button>
                 </form>
             </div>
