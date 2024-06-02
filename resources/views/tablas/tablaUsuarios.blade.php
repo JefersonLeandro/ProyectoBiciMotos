@@ -6,9 +6,13 @@ meta-description="Esta es la descripcion de la tabla Usuarios"
 >
 <x-layouts.navegacionAdministracion
 search="{{route('busquedaUsuarios')}}"
-placeholder="Nombre , identificacion o email aqui. " 
-:columnas="['Nombre','identificacion','email']"
+placeholder="Buscar usuarios... " 
+:columnas="['Nombre','Identificacion','Email']"
+:valor="$valor ?? '' "
+ruta="{{ route('areaAdmin') }}"
+:columna-seleccionada=" $columna ?? '' "
 >
+
    {{-- ajustar los tamaños segun las columnas a buscar.  --}}
     <div class="  pl-10 pt-5 pr-10    " style="height: 79vh;">
     <div class="flex flex-col justify-start items-start scrollTablaUsuarios  " style="width:90%">
@@ -66,8 +70,6 @@ placeholder="Nombre , identificacion o email aqui. "
                 </tr>
                 @endforeach
                     
-           
-
             <tr>
                 <form action="{{route("crudUsuario")}}" method="post">
                     @csrf
@@ -103,10 +105,13 @@ placeholder="Nombre , identificacion o email aqui. "
             </tr>
            
         </tbody>
-        
     </table>
+
+    <script src="asset('js/usuarios.js')"></script>
     </div>
     </div>
-   
+    
+    @vite(["resources/js/usuarios.js"])
+
 </x-layouts.navegacionAdministracion>
 </x-layouts.plantillaPrincipal>

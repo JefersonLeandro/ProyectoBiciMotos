@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Factura;
+use App\Models\roles;
 
 class Usuario extends Authenticatable
 {
@@ -56,6 +57,12 @@ class Usuario extends Authenticatable
         return $this->hasMany(Factura::class, 'idUsuario','idUsuario'); 
 
     }
+    
+    public function Rol(): BelongsTo{
+        return $this->belongsTo(Rol::class, 'idRol');
+    }
+
+   
     
 
 

@@ -82,10 +82,44 @@ class controladorTablaUsuario extends Controller
 
     }
 
+    // para el proximo listar de usuarios separar los administradores y hacer una aditoria. 
     public function buscar(Request $request){
 
-        return "tabla usuarios".$request; 
+        $opcion=$request->fOpcion;
+        $valor=$request->fBuscar;
+
+        switch ($opcion) {
+            
+            case 'Nombre':
+                return $this->busquedaEspecifica('nombreUsuario', $valor, $opcion);
+                break;
+            
+            case 'Identificacion':
+                return $this->busquedaEspecifica('identificacionUsuario', $valor, $opcion);
+                break;
+            
+            case 'Email':
+                return $this->busquedaEspecifica($opcion, $valor, $opcion);
+                break;
+            
+            default:
+                return back();
+                break;
+        }
     }
+
+    public function busquedaEspecifica($columna, $valor, $opcion) {
+
+        $usuarios = Usuario::where($columna, 'like', '%' . $valor . '%')->get();
+        $roles = roles::get();
+
+        return view("tablas.tablaUsuarios",[
+            'usuarios'=>$usuarios,
+            'roles'=>$roles, 
+            'valor'=>$valor,
+            'columna'=>$opcion]);
+    }
+    
 
 
 }   

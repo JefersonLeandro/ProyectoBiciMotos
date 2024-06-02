@@ -5,7 +5,7 @@ meta-description="Esta es la descripcion de la tabla imagen"
 >
 <x-layouts.navegacionAdministracion 
 search="{{route('busquedaImagenes')}}"
-placeholder="Nombre imagen "
+placeholder="Buscar imagenes"
 >
 
 <section class=" flex  w-full" style="height: 80vh;" >

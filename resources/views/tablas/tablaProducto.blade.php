@@ -5,7 +5,7 @@ meta-description="Esta es la descripcion de la tabla producto"
 >
 <x-layouts.navegacionAdministracion
 search="{{route('busquedaProductos')}}"
-placeholder="id, Nombre o  descripcion"
+placeholder="Buscar productos"
 :columnas="['id','Nombre','descripcion']"
 >
 

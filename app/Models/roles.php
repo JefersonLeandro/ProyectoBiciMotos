@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Usuarios;
 
 class roles extends Model
 {
@@ -17,4 +18,10 @@ class roles extends Model
 
 
     public $timestamps = false;
+
+  
+    public function Usuarios(): HasMany{
+        return $this->hasMany(Usuarios::class, 'idRol', 'idUsuario');
+    }
+
 }
