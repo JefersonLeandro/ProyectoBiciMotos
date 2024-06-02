@@ -6,6 +6,8 @@ meta-description="Esta es la descripcion de la tabla roles"
 <x-layouts.navegacionAdministracion
 search="{{route('busquedaRoles')}}"
 placeholder="Nombre del rol aqui."
+:valor="$valor ?? '' "
+ruta="{{route('tablaRoles')}}"
 >
     
 

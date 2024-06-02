@@ -60,7 +60,9 @@ class controladorTablaRoles extends Controller
     }
 
     public function buscar(Request $request){
-
-        return "TABLA roles ".$request; 
+        
+        $valor = $request->fBuscar; 
+        $roles = Roles::where('nombreRol', 'like', '%' . $valor . '%')->get();
+        return view("tablas.tablaRoles", ['roles' => $roles, 'valor'=>$valor]);
     }
 }

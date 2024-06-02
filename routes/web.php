@@ -65,7 +65,7 @@ use Illuminate\Support\Facades\Route;
     
     //obtener informacion 
     Route::get("/administracion/busqueda", [controladorTablaUsuario::class,'buscar'])->name("busquedaUsuarios");
-    Route::post("/nombretabla/busqueda2",[controladorTablaRoles::class,'buscar'])->name("busquedaRoles");
+    Route::get("/Roles/busqueda",[controladorTablaRoles::class,'buscar'])->name("busquedaRoles");
     Route::post("/nombretabla/busqueda3",[controladorProducto::class,'buscar'])->name("busquedaProductos");
     Route::post("/nombretabla/busqueda4",[controladorTablaImagen::class,'buscar'])->name("busquedaImagenes");
     Route::post("/nombretabla/busqueda5",[controladorFactura::class,'buscar'])->name("busquedaFacturas");
