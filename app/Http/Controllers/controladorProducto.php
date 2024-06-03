@@ -98,7 +98,42 @@ class controladorProducto extends Controller
 
     public function buscar(Request $request){
 
-        return "TABLA productos ".$request; 
+        $opcion = $request->fOpcion;
+        $valor = $request->fBuscar;
+        switch ($opcion) {
+            
+            case 'Id':
+                return $this->busquedaEspecifica("idProducto",$valor,$opcion);
+                break;
+            
+            case 'Nombre':
+                return $this->busquedaEspecifica("nombreProducto",$valor,$opcion);
+                break;
+            
+            case 'Descripcion':
+                return $this->busquedaEspecifica("descripcionProducto",$valor,$opcion);
+                break;
+            
+            case 'Stock':
+                return $this->busquedaEspecifica("stockProducto",$valor,$opcion);
+                break;
+
+            default:
+                return back();
+                break;
+        }
+        
+        return $request; 
+    }
+
+    public function busquedaEspecifica($columna, $valor, $opcion) {
+
+        $productos = Producto::where($columna, 'like', '%' . $valor . '%')->get();
+
+        return view("tablas.tablaProducto",[
+            'productos'=>$productos,
+            'valor'=>$valor,
+            'columna'=>$opcion]);
     }
 
     

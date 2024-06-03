@@ -6,7 +6,10 @@ meta-description="Esta es la descripcion de la tabla producto"
 <x-layouts.navegacionAdministracion
 search="{{route('busquedaProductos')}}"
 placeholder="Buscar productos"
-:columnas="['id','Nombre','descripcion']"
+:columnas="['Id','Nombre','Descripcion', 'Stock']"
+:valor="$valor ?? '' "
+recargar="{{ route('tablaProducto') }}"
+:columna-seleccionada=" $columna ?? '' "
 >
 
     <div class="ml-10 mt-5">
@@ -69,6 +72,6 @@ placeholder="Buscar productos"
             </tbody>
         </table>
     </div>
-
+    @vite(["resources/js/productos.js"])
 </x-layouts.navegacionAdministracion>
 </x-layouts.plantillaPrincipal>

@@ -9,7 +9,7 @@ search="{{route('busquedaUsuarios')}}"
 placeholder="Buscar usuarios... " 
 :columnas="['Nombre','Identificacion','Email']"
 :valor="$valor ?? '' "
-ruta="{{ route('areaAdmin') }}"
+recargar="{{ route('areaAdmin') }}"
 :columna-seleccionada=" $columna ?? '' "
 >
 
