@@ -100,22 +100,24 @@ class controladorProducto extends Controller
 
         $opcion = $request->fOpcion;
         $valor = $request->fBuscar;
+        $productos; 
+
         switch ($opcion) {
             
             case 'Id':
-                return $this->busquedaEspecifica("idProducto",$valor,$opcion);
+                $productos =  $this->buscarProductoId($valor);
                 break;
             
             case 'Nombre':
-                return $this->busquedaEspecifica("nombreProducto",$valor,$opcion);
+                $productos = $this->busquedaEspecifica("nombreProducto",$valor);
                 break;
             
             case 'Descripcion':
-                return $this->busquedaEspecifica("descripcionProducto",$valor,$opcion);
+                $productos = $this->busquedaEspecifica("descripcionProducto",$valor);
                 break;
             
             case 'Stock':
-                return $this->busquedaEspecifica("stockProducto",$valor,$opcion);
+                $productos =  $this->buscarProductoStock($valor);
                 break;
 
             default:
@@ -123,17 +125,25 @@ class controladorProducto extends Controller
                 break;
         }
         
-        return $request; 
-    }
-
-    public function busquedaEspecifica($columna, $valor, $opcion) {
-
-        $productos = Producto::where($columna, 'like', '%' . $valor . '%')->get();
-
         return view("tablas.tablaProducto",[
             'productos'=>$productos,
             'valor'=>$valor,
             'columna'=>$opcion]);
+    }
+
+    public function buscarProductoId($valor){
+        
+        return $producto = Producto::where("idProducto",'=' , $valor)->get(); 
+    }
+    
+    public function busquedaEspecifica($columna, $valor) {
+
+        return $productos = Producto::where($columna, 'like', '%' . $valor . '%')->get();
+    }
+    
+    public function buscarProductoStock($valor){
+        
+        return $producto = Producto::where("stockProducto",'=' , $valor)->get(); 
     }
 
     

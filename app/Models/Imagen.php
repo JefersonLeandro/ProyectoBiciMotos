@@ -19,4 +19,10 @@ class Imagen extends Model
        'idProducto',
    ];
    public $timestamps = false;
+  
+   public function producto(): BelongsTo
+   {
+       return $this->belongsTo(Producto::class, 'idProducto');
+   }
+
 }

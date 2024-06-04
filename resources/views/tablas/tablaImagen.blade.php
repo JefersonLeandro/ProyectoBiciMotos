@@ -6,6 +6,8 @@ meta-description="Esta es la descripcion de la tabla imagen"
 <x-layouts.navegacionAdministracion 
 search="{{route('busquedaImagenes')}}"
 placeholder="Buscar imagenes"
+:columnas="['Id-Producto','Nombre-Producto','Nombre-Imagen']"
+:campo="$campo ?? '' "
 >
 
 <section class=" flex  w-full" style="height: 80vh;" >
@@ -63,7 +65,7 @@ placeholder="Buscar imagenes"
                 <div class="flex flex-col gap-2">
                     
                     <label for="">nombreImagen</label>
-                    <input type="file" name="nombreImagen" class="" required>
+                    <input type="file" name="nombreImagen" class="" required >
                 </div>
                 <div class="flex flex-col gap-2">
                     
@@ -116,7 +118,7 @@ placeholder="Buscar imagenes"
                                     @csrf
                                     <td class=" py-2 text-center w-44 ">
                                         <input type="hidden" name="idImagen" value="{{$unaImagen->idImagen}}">
-                                        <input type="text" name="nombreImagen" class="h-7 px-2 rounded w-56" required value="{{$unaImagen->nombreImagen}}">
+                                        <input type="text" name="nombreImagen" class="h-7 px-2 rounded w-56 bg-slate-300" required readonly value="{{$unaImagen->nombreImagen}}">
                                     </td>
                                     <td class=" py-2 text-center w-44">
 

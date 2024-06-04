@@ -26,6 +26,12 @@ class Producto extends Model
         return $this->hasMany(detallesFactura::class, 'idProducto', 'idProducto');
     }
 
+    
+    public function imagenes(): HasMany
+    {
+        return $this->hasMany(Imagen::class, 'idProducto', 'idProducto');
+    }
+
 
 }
 

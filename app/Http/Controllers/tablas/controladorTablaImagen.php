@@ -113,9 +113,56 @@ class controladorTablaImagen extends Controller
         return view("tablas.tablaImagen" ,['productosEncontrados'=>$productosEncontrados , 'valor'=>$valor ,"imagenes"=>$imagenes]); 
 
     }
+    
     public function buscar(Request $request){
 
-        return "TABLA Imagenes ".$request; 
+        $opcion = $request->fOpcion;
+        $valor = $request->fBuscar;
+        
+        switch ($opcion) {
+            case 'Id-Producto':
+                return $this->buscarProductoId($valor, $opcion);
+                break;
+       
+            case 'Nombre-Producto':
+                return $this->busquedaEspecifica('nombreProducto',$valor, $opcion);
+                break;
+       
+            case 'Nombre-Imagen':
+                return $this-> busquedaEspecifica('nombreImagen',$valor, $opcion);
+                break;
+            
+            default:
+                return back(); 
+                break;
+        }
+        return $request; 
+    }
+
+
+    public function buscarProductoId($valor, $opcion){
+        
+        $imagenes = Imagen::where("idProducto",'=' , $valor)->get(); 
+
+        return $imagenes; 
+    }
+
+
+    public function busquedaEspecifica($columna, $valor, $opcion){
+        // homework 
+        // -areglar los ids de las busquedas ya que se dejo %1% esto buscara las registros 
+        // que tenga 1 , 11, 11, 102, 12, 10, para evitar eso y hacer una consisa buscar nombre columna = valor. 
+        //-relacionar con hasMany.
+
+        // $usuarios = Usuario::where($columna, 'like', '%' . $valor . '%')->get();
+        // $roles = roles::get();
+
+        // return view("tablas.tablaUsuarios",[
+        //     'usuarios'=>$usuarios,
+        //     'roles'=>$roles, 
+        //     'valor'=>$valor,
+        //     'columna'=>$opcion])
+
     }
 
 }
