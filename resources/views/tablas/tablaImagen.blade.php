@@ -6,7 +6,7 @@ meta-description="Esta es la descripcion de la tabla imagen"
 <x-layouts.navegacionAdministracion 
 search="{{route('busquedaImagenes')}}"
 placeholder="Buscar imagenes"
-:columnas="['Id-Producto','Nombre-Producto','Nombre-Imagen']"
+:columnas="['Id-producto','Nombre-producto','Nombre-imagen','Tipo-imagen' ]"
 :campo="$campo ?? '' "
 >
 
@@ -86,10 +86,7 @@ placeholder="Buscar imagenes"
                     <button type="reset" class=" bg-amber-300 h-8 w-16 rounded">Limpiar</button>
 
                 </div>
-               
-    
             </form>
-
         </div>
         <div class=" h-4/5">
 
@@ -105,49 +102,49 @@ placeholder="Buscar imagenes"
                     </thead>
                     <tbody class="">
 
-                        {{-- @if (isset($imagenes)) --}}
-                        @foreach ($imagenes as $unaImagen)
-                        
-                            @php
-                            $tipoImagen = $unaImagen->tipoImagen;
-                           
-                            @endphp
-                            
-                            <tr class="h-10">
-                                <form action="{{route("crudTablaImagen")}}" method="post" class="" >
-                                    @csrf
-                                    <td class=" py-2 text-center w-44 ">
-                                        <input type="hidden" name="idImagen" value="{{$unaImagen->idImagen}}">
-                                        <input type="text" name="nombreImagen" class="h-7 px-2 rounded w-56 bg-slate-300" required readonly value="{{$unaImagen->nombreImagen}}">
-                                    </td>
-                                    <td class=" py-2 text-center w-44">
+                        @if (!empty($imagenes))
+                            @foreach ($imagenes as $unaImagen)
+                                @php
+                                    $tipoImagen = $unaImagen->tipoImagen;
+                                @endphp
+                                
+                                <tr class="h-10">
+                                    <form action="{{route("crudTablaImagen")}}" method="post" class="" >
+                                        @csrf
+                                        <td class=" py-2 text-center w-44 ">
+                                            <input type="hidden" name="idImagen" value="{{$unaImagen->idImagen}}">
+                                            <input type="text" name="nombreImagen" class="h-7 px-2 rounded w-56 bg-slate-300" required readonly value="{{$unaImagen->nombreImagen}}">
+                                        </td>
+                                        <td class=" py-2 text-center w-44">
 
+                                            
+                                            <select name="tipoImagen" class="w-32" id="">
+                                                @if ($tipoImagen == 0)
+                                                    <option value="0" selected >Primaria</option>
+                                                    <option value="1">Secundaria</option>
+                                                @else
+                                                    <option value="0" >Primaria</option>
+                                                    <option value="1" selected>Secundaria</option>
+                                                @endif
+                                            </select>
+                                            
+                                        </td>
+                                        <td class=" py-2 text-center  w-40   "><input type="number" name="idProducto"  class="  h-7 px-2 rounded w-32" required  value="{{$unaImagen->idProducto}}"></td>
                                         
-                                        <select name="tipoImagen" class="w-32" id="">
-
-                                            @if ($tipoImagen == 0)
-                                                <option value="0" selected >Primaria</option>
-                                                <option value="1">Secundaria</option>
-                                            @else
-                                                <option value="0" >Primaria</option>
-                                                <option value="1" selected>Secundaria</option>
-                                            @endif
-
-                                           
-                                        </select>
-                                        
-                                    </td>
-                                    <td class=" py-2 text-center  w-40   "><input type="number" name="idProducto"  class="  h-7 px-2 rounded w-32" required  value="{{$unaImagen->idProducto}}"></td>
-                                    
-                                    <td class="py-2 pl-3">
-                                        <button class="bg-slate-400 w-20 h-7 rounded " name="fAccion" value="modificar">Modificar</button>
-                                        <button class="bg-red-300 w-20 h-7 rounded " name="fAccion" value="eliminar">Eliminar</button>
-                                    </td>
-                                </form>
-                            </tr>
-                        @endforeach
-                        {{-- @endif --}}
-                       
+                                        <td class="py-2 pl-3">
+                                            <button class="bg-slate-400 w-20 h-7 rounded " name="fAccion" value="modificar">Modificar</button>
+                                            <button class="bg-red-300 w-20 h-7 rounded " name="fAccion" value="eliminar">Eliminar</button>
+                                        </td>
+                                    </form>
+                                </tr>
+                            @endforeach
+                        @else
+                        <tr>
+                            <td class="pt-7 pl-7">
+                                <p>No hay imagenes disponibles.</p>    
+                            </td>
+                        </tr>
+                        @endif  
                     </tbody>
                 </table>
                 </div>

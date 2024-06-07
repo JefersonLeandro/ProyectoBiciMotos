@@ -132,17 +132,14 @@ class controladorProducto extends Controller
     }
 
     public function buscarProductoId($valor){
-        
         return $producto = Producto::where("idProducto",'=' , $valor)->get(); 
     }
     
     public function busquedaEspecifica($columna, $valor) {
-
         return $productos = Producto::where($columna, 'like', '%' . $valor . '%')->get();
     }
     
     public function buscarProductoStock($valor){
-        
         return $producto = Producto::where("stockProducto",'=' , $valor)->get(); 
     }
 

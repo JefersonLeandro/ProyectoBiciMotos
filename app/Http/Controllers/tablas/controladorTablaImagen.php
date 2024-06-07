@@ -118,51 +118,45 @@ class controladorTablaImagen extends Controller
 
         $opcion = $request->fOpcion;
         $valor = $request->fBuscar;
-        
+        $informacion;
+
         switch ($opcion) {
-            case 'Id-Producto':
-                return $this->buscarProductoId($valor, $opcion);
+            case 'Id-producto':
+                $informacion = $this->buscarProductoId($valor);
                 break;
        
-            case 'Nombre-Producto':
-                return $this->busquedaEspecifica('nombreProducto',$valor, $opcion);
+            case 'Nombre-producto':
+                return $informacion = $this->busquedaEspecifica('nombreProducto',$valor);
                 break;
        
-            case 'Nombre-Imagen':
-                return $this-> busquedaEspecifica('nombreImagen',$valor, $opcion);
+            case 'Nombre-imagen':
+                $informacion = $this->busquedaEspecifica('nombreImagen',$valor);
+                break;
+            case 'Tipo-imagen':
+                $informacion = $this->busquedaEspecifica('tipoImagen',$valor);
                 break;
             
             default:
                 return back(); 
                 break;
         }
-        return $request; 
+        return view("tablas.tablaImagen",[
+                    'imagenes'=>$informacion, 
+                    'valor'=>$valor,
+                    'columna'=>$opcion]); 
     }
 
+    public function buscarProductoId($valor){
+        return $imagenes = Imagen::where("idProducto",'=' , $valor)->get(); 
+    }
 
-    public function buscarProductoId($valor, $opcion){
+    public function busquedaEspecifica($columna, $valor){
         
-        $imagenes = Imagen::where("idProducto",'=' , $valor)->get(); 
+        $imagenes = Imagen::where($columna, 'like', '%' . $valor . '%')
+        ->with('producto')
+        ->get();
 
         return $imagenes; 
-    }
-
-
-    public function busquedaEspecifica($columna, $valor, $opcion){
-        // homework 
-        // -areglar los ids de las busquedas ya que se dejo %1% esto buscara las registros 
-        // que tenga 1 , 11, 11, 102, 12, 10, para evitar eso y hacer una consisa buscar nombre columna = valor. 
-        //-relacionar con hasMany.
-
-        // $usuarios = Usuario::where($columna, 'like', '%' . $valor . '%')->get();
-        // $roles = roles::get();
-
-        // return view("tablas.tablaUsuarios",[
-        //     'usuarios'=>$usuarios,
-        //     'roles'=>$roles, 
-        //     'valor'=>$valor,
-        //     'columna'=>$opcion])
-
     }
 
 }
